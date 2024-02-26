@@ -1,0 +1,126 @@
+programa ejercicio-Adicional-5
+procesos
+  proceso juntarFlores
+  comenzar
+    si(HayFlorEnLaEsquina)
+      tomarFlor    
+  fin
+  proceso juntarPapeles
+  comenzar
+    si(HayPapelEnLaEsquina)
+      tomarPapel
+  fin
+areas
+  areaRobot1: AreaP(11,12,11,12)
+  areaRobot2:AreaP(12,12,12,12)
+  areaRobot3:AreaP(11,10,11,10)
+  areaRobot4:AreaP(12,10,12,10)
+  areaCRobot1: AreaP(13,12,20,12)
+  areaCRobot2: AreaP(13,10,20,10)
+  areaJefe: AreaP(20,11,20,11)
+  fuenteF:AreaP(10,12,10,12)
+  fuenteP:AreaP(10,10,10,10)
+  base:AreaPC(12,11,12,11)
+robots
+  robot tipo1
+  variables
+    iden,av,ca:numero
+  comenzar
+    RecibirMensaje(iden,j)
+    av:=PosAv
+    ca:=PosCa
+    si(iden=1)
+      repetir 8
+        Pos(10,12)
+        juntarFlores
+        BloquearEsquina(12,11)
+        Pos(12,11)
+        depositarFlor
+        EnviarMensaje(V,r2)
+        Pos(av,ca)
+        LiberarEsquina(12,11)
+    sino
+      repetir 8
+        Pos(10,10)
+        juntarPapeles
+        BloquearEsquina(12,11)
+        Pos(12,11)
+        depositarPapel
+        EnviarMensaje(V,r4)
+        Pos(av,ca)
+        LiberarEsquina(12,11)  
+  fin
+  robot tipo2
+  variables
+    iden,av,ca,av2,ca2:numero
+    deje:boolean
+  comenzar
+    av:=PosAv
+    ca:=PosCa
+    av2:=13
+    RecibirMensaje(iden,j)
+    si(iden=1)
+      repetir 8
+        RecibirMensaje(deje,r1)
+        BloquearEsquina(12,11)
+        Pos(12,11)
+        juntarFlores
+        Pos(av2,12)
+        LiberarEsquina(12,11)
+        depositarFlor
+        Pos(av,ca)
+        av2:=av2+1
+      EnviarMensaje(iden,j)
+    sino
+      repetir 8
+        RecibirMensaje(deje,r3)
+        BloquearEsquina(12,11)
+        Pos(12,11)
+        juntarPapeles
+        Pos(av2,10)
+        LiberarEsquina(12,11)
+        depositarPapel
+        Pos(av,ca)
+        av2:=av2+1
+      EnviarMensaje(iden,j)        
+  fin
+  robot jefe
+  variables
+    ganador,perdedor:numero
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(1,r2)
+    EnviarMensaje(2,r3)
+    EnviarMensaje(2,r4)
+    RecibirMensaje(ganador,*) 
+    Informar(ganador)
+    RecibirMensaje(perdedor,*)
+    Informar(perdedor)  
+  fin
+variables
+  r1:tipo1
+  r2:tipo2
+  r3:tipo1
+  r4:tipo2
+  j:jefe
+comenzar
+  AsignarArea(r1,areaRobot1)
+  AsignarArea(r2,areaRobot2)
+  AsignarArea(r3,areaRobot3)
+  AsignarArea(r4,areaRobot4)
+  AsignarArea(r2,areaCRobot1)
+  AsignarArea(r4,areaCRobot2)
+  AsignarArea(j,areaJefe)
+  AsignarArea(r1,fuenteF)
+  AsignarArea(r3,fuenteP)
+  AsignarArea(r1,base)
+  AsignarArea(r2,base)
+  AsignarArea(r3,base)
+  AsignarArea(r4,base)
+  Iniciar(r1,11,12)
+  Iniciar(r2,12,12)
+  Iniciar(r3,11,10)
+  Iniciar(r4,12,10)
+  Iniciar(j,20,11)
+fin
+

@@ -1,0 +1,8 @@
+procedure Minimo(l:lista; var min:integer);
+begin
+  if(l<>nil)then begin
+     if(l^.datos<min)then
+       min:=l^.datos;
+     minimo(l^.sig,min);
+  end;
+end;

@@ -1,0 +1,51 @@
+procedure Min(a:arbol; var x:integer);
+begin
+  if(a=nil)then
+    x:=-1
+  else
+    if(a^.HI=nil)then
+      x:=a^.dato
+    else
+        Min(a^.HI,x);
+end;
+
+procedure BorrarElemento(var a:arbol; dato:integer; var ok:boolean);
+var
+  x:integer;
+  aux:arbol;
+begin
+    if(a=nil) then
+        writeln('el dato no se encontro')
+    else
+        if(a^.dato>dato) then
+                BorrarElemento(a^.HI, dato, ok)
+        else
+            if(a^.dato<dato) then
+                BorrarElemento(a^.HD, dato, ok)
+            else begin
+                ok:=true;
+                if(a^.HD=nil) and (a^.HI=nil)then begin
+                    aux:=a;
+                    dispose(aux);
+                    a:=nil;
+                end
+                else
+                    if(a^.HD= nil) and (a^.HI <>nil) then begin
+                            aux:=a;
+                            a:= a^.HI;
+                            dispose(aux);
+                        end
+                    else
+                     if(a^.HI= nil) and (a^.HD <>nil) then begin
+                        aux:=a;
+                        a:= a^.HD;
+                        dispose(aux);
+                        end
+                      else
+                        if(a^.HD<>nil) and (a^.HI<>nil)then begin
+                            Min(a^.HD,x);
+                            a^.dato:=x;
+                            BorrarElemento(a^.HD,x,ok);
+                        end;
+            end;
+end;

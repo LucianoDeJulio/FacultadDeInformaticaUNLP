@@ -1,0 +1,205 @@
+programa Parcial-JulianBellafronte
+
+procesos
+  proceso juntarF(ES flores:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores:=flores+1
+  fin  
+  proceso juntarP(ES papeles:numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      papeles:=papeles+1
+  fin   
+  proceso floresMax(E flores:numero; E id:numero; ES floresM:numero; ES idM:numero)
+  comenzar
+    si(flores>floresM)
+      floresM:=flores
+      idM:=id
+  fin
+  
+  proceso papelesMax(E papeles:numero; E id:numero; ES papelesM:numero; ES idM:numero)
+  comenzar
+    si(papeles>papelesM)
+      papelesM:=papeles
+      idM:=id
+  fin
+
+
+areas
+  area1 : AreaP(10,12,40,12)
+  area2 : AreaP(10,10,40,10)
+  area3 : AreaP(10,8,40,8)
+  area4 : AreaP(10,6,40,6)
+  areaJ : AreaP(20,15,20,15)
+
+robots 
+  robot corredor
+  variables
+    flores, papeles, id, pasos, ca:numero
+    seguir, ok:boolean
+  comenzar
+    flores:=0
+    papeles:=0
+    RecibirMensaje(id,rj)
+    derecha
+    ca:=PosCa
+    mientras(PosAv<20)
+      RecibirMensaje(pasos,rj)
+      repetir pasos
+        mover
+      si(PosAv<20)
+        juntarF(flores)        
+    RecibirMensaje(ok,rj)        
+    Pos(25,ca)
+    mientras(PosAv<40)
+      RecibirMensaje(pasos,rj)
+      repetir pasos
+        si(PosAv+pasos>40)
+          Pos(40,ca)
+          juntarP(papeles)
+        sino
+          mover
+      si(PosAv<40)
+        juntarP(papeles)
+    EnviarMensaje(id,rj)
+    EnviarMensaje(flores,rj)
+    EnviarMensaje(papeles,rj)
+  fin
+  robot jefe
+  variables
+    idMF, idMP, id, flores, papeles, floresM, papelesM, pasos:numero
+    
+    p1, p2, p3 ,p4:numero
+    
+    ok, terminar:boolean
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)   
+    EnviarMensaje(4,r4)
+
+    p1:=0
+    p2:=0
+    p3:=0
+    p4:=0
+    ok:=F
+    mientras(ok=F)
+      si(p1<10)
+        Random(pasos,1,3)
+        EnviarMensaje(pasos,r1)
+        p1:=p1+pasos
+      si(p2<10)
+        Random(pasos,1,3)
+        EnviarMensaje(pasos,r2)
+        p2:=p2+pasos
+      si(p3<10)
+        Random(pasos,1,3)
+        EnviarMensaje(pasos,r3)
+        p3:=p3+pasos
+      si(p4<10)
+        Random(pasos,1,3)
+        EnviarMensaje(pasos,r4)
+        p4:=p4+pasos
+      si(p1>=10)
+        si(p2>=10)
+          si(p3>=10)
+            si(p4>=10)
+              ok:=V          
+    EnviarMensaje(V,r1) {para que vuelvan a comenzar}
+    EnviarMensaje(V,r2)
+    EnviarMensaje(V,r3)   
+    EnviarMensaje(V,r4)
+    
+    p1:=0
+    p2:=0
+    p3:=0
+    p4:=0
+
+    
+    ok:=F
+    mientras(ok=F)
+      si(p1<15)
+        Random(pasos,1,3)
+        EnviarMensaje(pasos,r1)
+        p1:=p1+pasos
+      si(p2<15)
+        Random(pasos,1,3)
+        EnviarMensaje(pasos,r2)
+        p2:=p2+pasos
+      si(p3<15)
+        Random(pasos,1,3)
+        EnviarMensaje(pasos,r3)
+        p3:=p3+pasos
+      si(p4<15)
+        Random(pasos,1,3)
+        EnviarMensaje(pasos,r4)
+        p4:=p4+pasos
+      si(p1>=15)
+        si(p2>=15)
+          si(p3>=15)
+            si(p4>=15)
+              ok:=V
+
+    floresM:=0
+    papelesM:=0
+    terminar:=F
+    repetir 4
+      RecibirMensaje(id,*)
+      si(terminar=F)
+        Informar('El-robot-ganador-es-el-robot-id',id)
+        terminar:=V
+      si(id=1)
+        RecibirMensaje(flores,r1)
+        RecibirMensaje(papeles,r1)
+      sino
+        si(id=2)
+          RecibirMensaje(flores,r2)
+          RecibirMensaje(papeles,r2)
+        sino
+          si(id=3)
+            RecibirMensaje(flores,r3)
+            RecibirMensaje(papeles,r3)  
+          sino
+            RecibirMensaje(flores,r4)
+            RecibirMensaje(papeles, r4)
+      floresMax(flores,id,floresM,idMF)
+      papelesMax(papeles,id,papelesM,idMP)
+    Informar('El-robot-que-mas-flores-junto-fue',idMF)
+    Informar('El-robot-que-mas-papeles-junto-fue',idMP)
+  fin        
+          
+variables 
+  r1 : corredor
+  r2 : corredor
+  r3 : corredor
+  r4 : corredor
+  rj : jefe
+
+comenzar 
+  AsignarArea(r1,area1)
+  AsignarArea(r2,area2)
+  AsignarArea(r3,area3)
+  AsignarArea(r4,area4)
+  AsignarArea(rj,areaJ)
+  
+  Iniciar(r1,10,12)
+  Iniciar(r2,10,10)
+  Iniciar(r3,10,8)
+  Iniciar(r4,10,6)
+  Iniciar(rj,20,15)
+
+
+fin
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,168 @@
+programa parcial-Luciano-De-Julio
+procesos
+  proceso juntarFlor
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+areas
+  area : AreaPC (17,11,29,16)
+  altar : AreaPC(31,16,31,16)
+  casa1 : AreaP(17,17,17,17)
+  casa2 : AreaP(20,10,20,10)
+  casa3 : AreaP(23,17,23,17)
+  casa4 : AreaP(26,10,26,10)
+  casaD : AreaP(30,16,30,16)
+robots
+  robot tipo1
+  variables
+    avO, caO : numero
+  comenzar
+    avO := PosAv
+    caO := PosCa
+    Pos(17,16)
+    repetir 2
+      derecha
+    juntarFlor
+    repetir 5
+      mover
+      juntarFlor
+    repetir 3
+      derecha
+    repetir 2
+      mover
+      juntarFlor
+    mover
+    mientras(HayFlorEnLaBolsa)
+      depositarFlor
+    Pos(avO,caO)
+    EnviarMensaje(V, r2)
+  fin
+  robot tipo2
+  variables
+    avO, caO : numero
+    seguir : boolean
+  comenzar
+    RecibirMensaje(seguir, r1)
+    avO := PosAv
+    caO := PosCa
+    Pos(20,11)
+    juntarFlor
+    repetir 5
+      mover
+      juntarFlor
+    derecha
+    repetir 2
+      mover
+      juntarFlor
+    mover
+    mientras(HayFlorEnLaBolsa)
+      depositarFlor
+    Pos(avO,caO)
+    EnviarMensaje(V,r3) 
+  fin
+  robot tipo3
+  variables
+    avO, caO : numero
+    seguir : boolean
+  comenzar
+    RecibirMensaje(seguir, r2)
+    avO := PosAv
+    caO := PosCa
+    Pos(23,16)
+    repetir 2
+      derecha
+    juntarFlor
+    repetir 5
+      mover
+      juntarFlor
+    repetir 3
+      derecha
+    repetir 2
+      mover
+      juntarFlor
+    mover
+    mientras(HayFlorEnLaBolsa)
+      depositarFlor
+    Pos(avO,caO)
+    EnviarMensaje(V, r4)
+  fin
+  robot tipo4
+  variables
+    avO, caO, avF, caF : numero
+    seguir, ok : boolean
+  comenzar
+    RecibirMensaje(seguir, r3)
+    avO := PosAv
+    caO := PosCa
+    Pos(26,11)
+    juntarFlor
+    repetir 5
+      mover
+      juntarFlor
+    derecha
+    repetir 3
+      mover
+      juntarFlor
+    avF := PosAv
+    caF := PosCa
+    BloquearEsquina(31,16)
+    Pos(31,16)
+    depositarFlor
+    Pos(avF,caF)
+    LiberarEsquina(31,16)
+    EnviarMensaje(V, rD)
+    mientras(HayFlorEnLaBolsa)
+      BloquearEsquina(31,16)
+      Pos(31,16)
+      depositarFlor
+      Pos(avF,caF)
+      LiberarEsquina(31,16)
+    Pos(avO,caO)
+  fin
+  robot dios
+  variables
+    totalF, avO, caO: numero
+    empezar : boolean
+  comenzar
+    totalF := 0
+    avO := PosAv
+    caO := PosCa
+    RecibirMensaje(empezar,r4)
+    mientras(empezar = V )
+      BloquearEsquina(31,16)
+      Pos(31,16)
+      tomarFlor
+      totalF := totalF +1
+      si(HayFlorEnLaEsquina)
+        empezar := V
+      sino
+        empezar := F  
+      Pos(avO,caO)
+      LiberarEsquina(31,16)
+    Informar('Total-Flores', totalF)
+  fin 
+variables
+  r1 : tipo1
+  r2 : tipo2
+  r3 : tipo3
+  r4 : tipo4
+  rD : dios
+comenzar
+  AsignarArea(r1, casa1)
+  AsignarArea(r1, area)
+  AsignarArea(r2, casa2)
+  AsignarArea(r2, area)
+  AsignarArea(r3, casa3)
+  AsignarArea(r3, area)
+  AsignarArea(r4, casa4)
+  AsignarArea(r4, area)
+  AsignarArea(r4, altar)
+  AsignarArea(rD, casaD)
+  AsignarArea(rD, altar)
+  Iniciar(r1, 17,17)
+  Iniciar(r2, 20,10)
+  Iniciar(r3, 23,17)
+  Iniciar(r4, 26,10)
+  Iniciar(rD, 30,16)
+fin

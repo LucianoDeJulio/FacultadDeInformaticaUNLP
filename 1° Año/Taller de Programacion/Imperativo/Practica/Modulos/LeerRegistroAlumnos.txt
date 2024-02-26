@@ -1,0 +1,11 @@
+procedure leer (var a: alumno);
+begin
+     writeln('Ingrese el numero de legajo');
+     readln(a.legajo);
+     if (a.legajo<> 0) then begin
+         writeln('ingrese la cantidad de asistencia');
+         readln(a.asis);
+         writeln('ingrese la nota del examen');
+         readln(a.nota);
+     end;
+end;

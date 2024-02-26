@@ -1,0 +1,24 @@
+procedure RecorridoAcotado(a:arbol; inf,sup:integer);
+begin
+  if(a<>nil)then begin
+    if(a^.dato>=inf)then
+      if( a^.dato<=sup)then begin
+        writeln('Numero: ', a^.dato);
+        RecorridoAcotado(a^.HI,inf,sup);
+        RecorridoAcotado(a^.HD,inf,sup);
+      end
+      else
+        RecorridoAcotado(a^.HI,inf,sup)
+    else
+      RecorridoAcotado(a^.HD,inf,sup);
+  end;
+end;
+
+procedure EnOrden(a:arbol);
+begin
+ if(a<>nil) then begin
+    EnOrden(a^.HI);
+    writeln(a^.dato,' ');
+    EnOrden(a^.HD);
+ end;
+end;

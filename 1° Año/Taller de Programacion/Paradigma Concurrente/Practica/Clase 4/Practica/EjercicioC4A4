@@ -1,0 +1,123 @@
+programa Ejercicio-1-a
+procesos 
+  proceso juntarF(ES flores:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores := flores + 1
+  fin
+  
+  proceso recorridoR(E al:numero; E an:numero; ES flores:numero)
+  comenzar
+    repetir 2
+      repetir al
+        juntarF(flores)
+        mover
+      derecha
+      repetir an
+        juntarF(flores)
+        mover
+      derecha
+  fin
+  
+  proceso maximoFlores( E id: numero; E flores: numero; ES maxId:numero; ES maxF: numero)
+  comenzar
+    si(flores > maxF)
+      maxF:=flores
+      maxId:=id
+  fin
+  
+areas
+  areaRectangulo1 : AreaP(2,2,7,5)
+  areaRectangulo2 : AreaP(2,6,7,9)
+  areaRectangulo3 : AreaP(2,10,7,13)
+  areaRectangulo4 : AreaP(2,14,7,17)
+  areaRectangulo5 : AreaP(2,18,7,21)
+  areaRectangulo6 : AreaP(2,22,7,25)
+  areaJefe: AreaP(1,1,1,1)
+  
+robots  
+  robot tipo1 
+  variables  
+    flores : numero 
+    id : numero 
+    alto : numero
+    ancho : numero
+  comenzar 
+    RecibirMensaje(id, robotJ) 
+    flores := 0 
+    Random(alto,1,3)
+    Random(ancho,1,5)
+    recorridoR(alto,ancho,flores)
+    Informar(flores) 
+    EnviarMensaje(id,robotJ) 
+    EnviarMensaje(flores,robotJ) 
+  fin
+  
+  robot tipoJefe
+  variables
+    maxF:numero
+    maxId:numero
+    flores:numero
+    id: numero
+  comenzar
+    EnviarMensaje(1,robot1)
+    EnviarMensaje(2,robot2)
+    EnviarMensaje(3,robot3)
+    EnviarMensaje(4,robot4)
+    EnviarMensaje(5,robot5)
+    EnviarMensaje(6,robot6)
+    repetir 6
+      RecibirMensaje(id,*)
+      si(id=1)
+        RecibirMensaje(flores,robot1)
+        maximoFlores(id,flores,maxId,maxF)
+      sino
+        si(id=2)
+          RecibirMensaje(flores,robot2)
+          maximoFlores(id,flores,maxId,maxF)
+        sino
+          si(id=3)
+            RecibirMensaje(flores,robot3)
+            maximoFlores(id,flores,maxId,maxF)
+          sino
+            si(id=4)
+              RecibirMensaje(flores,robot4)
+              maximoFlores(id,flores,maxId,maxF)
+            sino
+              si(id=5)
+                RecibirMensaje(flores,robot5)
+                maximoFlores(id,flores,maxId,maxF)
+              sino
+                RecibirMensaje(flores,robot6)
+                maximoFlores(id,flores,maxId,maxF)      
+    Informar(maxId)
+  fin
+  
+variables 
+  robot1: tipo1
+  robot2: tipo1
+  robot3: tipo1
+  robot4: tipo1
+  robot5: tipo1
+  robot6: tipo1
+  robotJ: tipoJefe
+
+comenzar 
+  AsignarArea(robot1,areaRectangulo1)
+  AsignarArea(robot2,areaRectangulo2)
+  AsignarArea(robot3,areaRectangulo3)
+  AsignarArea(robot4,areaRectangulo4)
+  AsignarArea(robot5,areaRectangulo5)
+  AsignarArea(robot6,areaRectangulo6)
+  AsignarArea(robotJ,areaJefe)
+  Iniciar(robot1, 2, 2)
+  Iniciar(robot2, 2, 6)
+  Iniciar(robot3, 2, 10)
+  Iniciar(robot4, 2, 14)
+  Iniciar(robot5, 2, 18)
+  Iniciar(robot6, 2, 22)
+  Iniciar(robotJ, 1, 1)
+fin
+ 
+

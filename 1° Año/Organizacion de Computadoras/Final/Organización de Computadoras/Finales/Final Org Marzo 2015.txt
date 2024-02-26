@@ -1,0 +1,16 @@
+1. ¿Qué define el Teorema Fundamental de la Numeración? Suponiendo que los dígitos de su Legajo 
+(sin el número después de la barra) son codificados como BCD empaquetado sin signo, ¿cuál es el 
+valor que se obtendría al interpretarlos como binario sin signo?
+
+2. ¿Qué expresan las denominadas Leyes de De Morgan? Describa y grafique cómo se obtienen las
+funciones lógicas elementales utilizando un único tipo de compuertas.
+
+3. ¿Qué es y por qué funciona la Jerarquia de Memoria? Describa las características tecnológicas
+de los distintos niveles y compárelos en una tabla.
+
+4. ¿Cuáles son todos los elementos que se deben tener en consideración para diseñar las 
+instrucciones de máquina de un procesador? Describa en forma completa las características de al
+menos 2 de esos elementos.
+
+5. Describa las características de diferentes técnicas de impresión que puede econtrar como
+periférico de una computadora. 

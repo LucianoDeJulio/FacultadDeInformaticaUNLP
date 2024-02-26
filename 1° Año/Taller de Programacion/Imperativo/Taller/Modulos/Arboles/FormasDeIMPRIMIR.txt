@@ -1,0 +1,26 @@
+Procedure preOrden( a: arbol );
+begin
+ if ( a <> nil ) then begin
+    writeln (a^.dato, ' ');
+    preOrden (a^.HI);
+    preOrden (a^.HD)
+ end;
+end;
+
+Procedure PostOrden( a: arbol );
+begin
+ if ( a <> nil ) then begin
+    PostOrden (a^.HI);
+    PostOrden (a^.HD);
+    writeln (a^.dato, ' ');
+ end;
+end;
+
+procedure EnOrden(a:arbol);
+begin
+ if(a<>nil) then begin
+    EnOrden(a^.HI);
+    writeln(a^.dato,' ');
+    EnOrden(a^.HD);
+ end;
+end;

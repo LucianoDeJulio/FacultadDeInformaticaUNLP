@@ -1,0 +1,161 @@
+programa adicional-6 
+procesos 
+  proceso recorrerRectangulo (E ancho : numero)
+  comenzar 
+    derecha
+    repetir 2
+      repetir ancho
+        mover
+        mientras(HayFlorEnLaEsquina)
+          tomarFlor
+      repetir 3
+        derecha
+      repetir 15
+        mover
+        mientras (HayFlorEnLaEsquina)
+          tomarFlor
+      repetir 3
+        derecha
+  fin       
+areas 
+  rectangulo1 : AreaPC(1,10,100,25)
+  rectangulo2 : AreaPC(1,30,100,45)
+  casa1 : AreaP(1,1,1,1)
+  casa2 : AreaP(2,2,2,2)
+  casa3 : AreaP(3,3,3,3)
+  casa4 : AreaP(4,4,4,4)
+  casaF : AreaP(5,5,5,5)
+robots 
+  
+  robot tipo1 
+  variables 
+    equipo : numero
+    avO : numero
+    caO : numero
+    avR : numero
+    ancho : numero
+    caD : numero
+    caI : numero
+  comenzar
+    RecibirMensaje(equipo,robotF)
+    RecibirMensaje(ancho, robotF)
+    RecibirMensaje(avR,robotF)
+    RecibirMensaje(caI, robotF)
+    RecibirMensaje(caD,robotF)
+    avO := PosAv
+    caO := PosCa
+    Pos(avR,caI)
+    recorrerRectangulo(ancho)
+    mientras(HayFlorEnLaBolsa)
+      Pos(5,caD)
+      depositarFlor
+      Pos(avO,caO)
+    si(equipo = 1) 
+      EnviarMensaje(equipo,robot2)
+      EnviarMensaje(ancho,robot2)
+      EnviarMensaje(avR,robot2)
+      EnviarMensaje(caI,robot2)
+      EnviarMensaje(caD,robot2)
+    sino
+      EnviarMensaje(equipo,robot4)
+      EnviarMensaje(ancho,robot4)
+      EnviarMensaje(avR,robot4)
+      EnviarMensaje(caI,robot4)
+      EnviarMensaje(caD,robot4)   
+  fin
+  robot tipo2 
+  variables 
+    avO : numero 
+    caO : numero 
+    avR : numero 
+    ancho : numero 
+    equipo : numero 
+    caI: numero
+    caD : numero
+  comenzar 
+    RecibirMensaje(equipo,*)
+    si(equipo = 1)
+      RecibirMensaje(ancho,robot1)
+      RecibirMensaje(avR,robot1)
+      RecibirMensaje(caI,robot1)
+      RecibirMensaje(caD,robot1)
+    sino
+      RecibirMensaje(ancho,robot3)
+      RecibirMensaje(avR,robot3)
+      RecibirMensaje(caI,robot3)
+      RecibirMensaje(caD,robot3)  
+    avO := PosAv 
+    caO := PosCa
+    Pos(5,caD)
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      Pos(avO,caO)
+      Pos(5,caD) 
+    Pos(avR, caI)
+    derecha
+    repetir 2
+      repetir ancho
+        depositarFlor
+        mover
+      repetir 3
+        derecha
+      repetir 15
+        depositarFlor
+        mover
+      repetir 3
+        derecha
+    Pos(avO,caO)
+    EnviarMensaje(equipo, robotF)
+  fin
+  robot tipo3
+  variables
+    equipo : numero
+    ancho : numero 
+    avR : numero 
+    gano : numero 
+    perdio : numero 
+    seguir : numero 
+    caD1 : numero 
+    caD2 : numero 
+    caI1: numero 
+    caI2 : numero 
+  comenzar
+    EnviarMensaje(1,robot1)
+    EnviarMensaje(2,robot3)
+    Random(ancho, 1,5)
+    EnviarMensaje(ancho,robot1)
+    EnviarMensaje(ancho,robot3)
+    Random (avR,1,95)
+    EnviarMensaje(avR,robot1)
+    EnviarMensaje(avR,robot3)
+    EnviarMensaje(10,robot1)  
+    EnviarMensaje(30,robot3)
+    EnviarMensaje(15,robot1)
+    EnviarMensaje(40,robot3)
+    RecibirMensaje(gano, *)
+    Informar ('Ganador', gano) 
+    RecibirMensaje(perdio,*) 
+    Informar('Perdedor', perdio) 
+  fin  
+variables 
+  robot1 : tipo1 
+  robot2 : tipo2 
+  robot3 : tipo1 
+  robot4 : tipo2 
+  robotF : tipo3 
+comenzar 
+  AsignarArea(robot1,casa1) 
+  AsignarArea(robot1,rectangulo1) 
+  AsignarArea(robot2,casa2) 
+  AsignarArea(robot2,rectangulo1) 
+  AsignarArea(robot3,casa3) 
+  AsignarArea(robot3,rectangulo2) 
+  AsignarArea(robot4,casa4)
+  AsignarArea(robot4,rectangulo2)
+  AsignarArea(robotF,casaF)
+  Iniciar(robot1,1,1) 
+  Iniciar(robot2,2,2) 
+  Iniciar(robot3,3,3) 
+  Iniciar(robot4,4,4) 
+  Iniciar(robotF,5,5) 
+fin 

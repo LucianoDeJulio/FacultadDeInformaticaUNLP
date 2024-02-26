@@ -1,0 +1,92 @@
+programa Ejercicio-1-a
+areas
+  areaCiudad : AreaC(12,10,35,15)
+  areaRectangulo1 : AreaP(2,2,2,2)
+  areaRectangulo2 : AreaP(6,2,6,2)
+  areaRectangulo3 : AreaP(10,2,10,2)
+  areaRectangulo4 : AreaP(14,2,14,2)
+  areaRectangulo5 : AreaP(18,2,18,2)
+  areaRectangulo6 : AreaP(22,2,22,2)
+  areaJefe: AreaP(1,1,1,1)
+  
+robots 
+  robot tipo1
+  variables 
+    flores : numero
+    av : numero
+  comenzar
+    RecibirMensaje(av,robotJ)
+    Pos(av,10)
+    flores := 0
+    repetir 2
+      repetir 5
+        mientras(HayFlorEnLaEsquina)
+          tomarFlor
+          flores := flores + 1
+        mover
+      derecha
+      repetir 3
+        mientras(HayFlorEnLaEsquina)
+          tomarFlor
+          flores := flores + 1
+        mover
+      derecha
+    Informar(flores)
+    EnviarMensaje(flores,robotJ) 
+  fin
+  
+  robot tipoJefe
+  variables
+    aux:numero 
+    flores:numero 
+    av :numero 
+  comenzar 
+    av := 12  
+    flores:=0  
+    EnviarMensaje(12,robot1)  
+    EnviarMensaje(16,robot2) 
+    EnviarMensaje(20,robot3) 
+    EnviarMensaje(24,robot4)
+    EnviarMensaje(28,robot5) 
+    EnviarMensaje(32,robot6)  
+    repetir 6
+      RecibirMensaje(aux,*)  
+      flores:=flores+aux
+    Informar(flores)
+  fin
+  
+variables 
+  robot1: tipo1
+  robot2: tipo1
+  robot3: tipo1
+  robot4: tipo1
+  robot5: tipo1
+  robot6: tipo1
+  robotJ: tipoJefe
+
+comenzar 
+  AsignarArea(robot1,areaRectangulo1)
+  AsignarArea(robot2,areaRectangulo2)
+  AsignarArea(robot3,areaRectangulo3)
+  AsignarArea(robot4,areaRectangulo4)
+  AsignarArea(robot5,areaRectangulo5)
+  AsignarArea(robot6,areaRectangulo6)
+  AsignarArea(robot1,areaCiudad)
+  AsignarArea(robot2,areaCiudad)
+  AsignarArea(robot3,areaCiudad)
+  AsignarArea(robot4,areaCiudad)
+  AsignarArea(robot5,areaCiudad)
+  AsignarArea(robot6,areaCiudad)
+  AsignarArea(robotJ,areaJefe)
+  Iniciar(robot1, 2, 2)
+  Iniciar(robot2, 6, 2)
+  Iniciar(robot3, 10, 2)
+  Iniciar(robot4, 14, 2)
+  Iniciar(robot5, 18, 2)
+  Iniciar(robot6, 22, 2)
+  Iniciar(robotJ, 1, 1)
+fin
+ 
+ 
+
+

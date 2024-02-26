@@ -1,0 +1,27 @@
+Procedure recorrido ( pri : lista);
+
+Begin
+ while(pri <> NIL) do begin
+   writeln(pri^.datos);
+   pri:=pri^.sig;
+ end;
+end;
+
+Procedure recorridoIda ( pri : lista);
+
+Begin
+ if (pri <> NIL) then begin
+   writeln(pri^.datos);
+   recorridoIda(pri^.sig);
+ end;
+end;
+
+Procedure recorridoVuelta ( pri : lista);
+
+Begin
+ if(pri <> NIL) then  begin
+   recorridoVuelta(pri^.sig);
+   writeln(pri^.datos);
+
+ end;
+end;

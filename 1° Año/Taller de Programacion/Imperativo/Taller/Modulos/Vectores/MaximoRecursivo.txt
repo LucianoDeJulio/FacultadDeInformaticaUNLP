@@ -1,0 +1,12 @@
+procedure maximo(v:vector;var max:integer;diml:integer; i:integer);
+begin
+
+       if(i<=diml)then begin
+              if(v[i]>max)then
+                max:=v[i];
+              i:=i+1;
+              maximo(v,max,diml,i);
+
+    end;
+
+end;

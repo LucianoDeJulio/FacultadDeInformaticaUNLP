@@ -1,0 +1,9 @@
+procedure RecorridoAcotadoPre(a:arbol; var contador:integer);
+begin
+  if(a<>nil)then begin
+    if(a^.dato.monto_total>100)then
+        contador:=contador+1;
+    RecorridoAcotadoPre(a^.HI,contador);
+    RecorridoAcotadoPre(a^.HD,contador);
+  end;
+end;

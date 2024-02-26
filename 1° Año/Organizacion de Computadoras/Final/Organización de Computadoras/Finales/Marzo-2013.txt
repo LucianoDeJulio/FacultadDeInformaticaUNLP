@@ -1,0 +1,17 @@
+1). Dado el numero A6B4,
+	A). Interpretarlo como un numero en puno flotante en exceso . Epresar el nùmero en base 10
+	B). Calcular e numero mayor de este sistema y el positivo mas cercano a 0.
+
+2). Escriba la tabla de verdad y el esquema circuital de un circuito lògico combinacional de 4  entradas logicas y una
+salida logica, que vale 1 cuando tres entradas valen 1. Explique y justifique el metodo utilizado al pasar de la tabla de
+verdad al diagrama circuital.
+
+3). Ciclo de insruccion. Describa tdos los pasos para ejecutar la instruccion MOV ax, 1234H. La memoria almacena alabras 
+de byte y la instruccion ocupa 4 byte a partir de la direccion 2000H. ¿En que pasos se diferencia la ejecucion de la 
+instruccion MOV AX,[1234H].
+
+
+4). ¿Que son y para que sirven los modos de direccionamiento? describa claramente dos de ellos y de ejemplo de instrucciones 
+que los usen.
+ 
+5). Explique claramente porque funciona una jerarquia de memoria en un sistema de computos 

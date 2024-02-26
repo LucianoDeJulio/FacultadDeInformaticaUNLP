@@ -1,0 +1,63 @@
+Procedure AgregarAtras (var L:lista; N:lista);
+var nue,act:lista;
+begin
+     act:=L;
+     nue:=N;
+     nue^.sig:=nil;
+     if(L<>nil)then
+     begin
+          act:=L;
+          while(act^.sig<>nil)do
+                                act:=act^.sig;
+          act^.sig:=nue;
+     end
+     else
+         L:=nue;
+end;
+
+procedure Borrar(var l:lista);
+begin
+    l:=l^.sig;
+end;
+procedure buscarMin(var v:vector;var E:lista);
+var
+    min:CADENA;
+    i,pos:integer;
+begin
+    min:='zzzzzzzz';
+
+    for i:=1 to Dimf do begin
+        if (v[i]<>NIl)then
+             if(v[i]^.dato.impu<min)then begin
+                    min:=v[i]^.dato.impu;
+                    pos:=i;
+                    E:=v[i];
+             end;
+
+    end;
+    if(min<>'zzzzzzzz')then
+        Borrar(v[pos])
+    else
+        E:=nil;
+
+end;
+
+procedure Merge(var v:vector; var l:lista);
+var
+    E,aux:lista;
+    GastoTot: integer;
+begin
+    buscarmin(v,E);
+    while(E<>nil) do begin
+        aux:=e;
+        GastoTot:=0;
+        while(E<>NIl) and(E^.dato.Impu=aux^.dato.impu) do begin
+            gastotot:=gastotot+E^.dato.gastop;
+            buscarmin(v,E);
+        end;
+        aux^.dato.gastop:=gastotot;
+        aux^.sig:=nil;
+        agregaratras(l,aux);
+
+    end;
+end;

@@ -1,0 +1,191 @@
+programa EjercicioCuadrado
+procesos
+  proceso juntarPapel(ES p:numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      p:=p+1      
+  fin
+  proceso juntarFlor(ES f:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      f:=f+1
+  fin
+  proceso depositarPapeles (E p:numero)
+  comenzar
+    repetir p
+      depositarPapel
+  fin
+  proceso HaciaIzquierda ( E num:numero; ES f:numero; ES p:numero)
+  variables
+    aux:numero
+  comenzar
+    aux:= PosAv - 1
+    BloquearEsquina(aux, PosCa)
+    mover
+    aux:= PosAv + 1
+    LiberarEsquina(aux, PosCa)
+    si (num = 2)
+      juntarFlor(f)
+    sino
+      juntarPapel(p)
+  fin
+  proceso HaciaDerecha ( E num:numero; ES f:numero; ES p:numero)
+  variables
+    aux:numero
+  comenzar
+    aux:= PosAv + 1
+    BloquearEsquina(aux, PosCa)
+    mover
+    aux:= PosAv - 1
+    LiberarEsquina(aux, PosCa)
+    si (num = 2)
+      juntarFlor(f)
+    sino
+      juntarPapel(p)
+  fin
+  proceso HaciaArriba ( E num:numero; ES f:numero; ES p:numero)
+  variables
+    aux:numero
+  comenzar
+    aux:= PosCa + 1
+    BloquearEsquina(PosAv, aux)
+    mover
+    aux:= PosCa - 1
+    LiberarEsquina(PosAv, aux)
+    si (num = 2)
+      juntarFlor(f)
+    sino
+      juntarPapel(p)
+  fin
+  proceso HaciaAbajo ( E num:numero; ES f:numero; ES p:numero)
+  variables
+    aux:numero
+  comenzar
+    aux:= PosCa - 1
+    BloquearEsquina(PosAv, aux)
+    mover
+    aux:= PosCa + 1
+    LiberarEsquina(PosAv, aux)
+    si (num = 2)
+      juntarFlor(f)
+    sino
+      juntarPapel(p)
+  fin
+areas
+  ciudad1 : AreaPC(3,3,13,13)
+  ciudad2 : AreaPC(16,3,26,13)  
+  ciudad3 : AreaP(14,6,14,6)
+robots 
+  robot jefe
+  variables
+    obj,cant,quienSos, equipo1,equipo2:numero
+    ok: boolean
+  comenzar   
+    equipo1:= 0 
+    equipo2:= 0
+    EnviarMensaje(1,robotP1)
+    EnviarMensaje(1,robotF1)
+    EnviarMensaje(2,robotP2)
+    EnviarMensaje(2,robotF2)
+    cant:=0 
+    repetir 3
+      RecibirMensaje(quienSos, *)  
+      si quienSos = 1
+        equipo1:= equipo1 + 1
+      si quienSos = 2
+        equipo2:= equipo2 + 1
+    si equipo1 = 2
+      Informar('Equipo-Ganador', 1) {INFORMA QUE GANO EL EQUIPO 1}
+    sino
+      Informar('Equipo-Ganador', 2) {INFORMA QUE GANO EL EQUIPO 2}
+    RecibirMensaje(quienSos, *)  
+    Informar('Equipo-Perdedor',quienSos) {INFORMA DE QUE EQUIPO ES QUIEN LLEGO ULTIMO}
+    ok:= V {TODOS LOS ROBOTS TERMINARON}
+    EnviarMensaje(ok, robotP1)
+    EnviarMensaje(ok, robotP2)
+    EnviarMensaje(ok, robotF1)
+    EnviarMensaje(ok, robotF2)
+    repetir 4
+      RecibirMensaje(obj, *)
+      Informar('Junto',obj) {INFORMA QUE JUNTO CADA ROBOT}
+      cant:= cant + obj
+    Informar('La-Cantidad-Total-De-Flores-Y-Papeles-Es',cant)              
+  fin 
+  
+  robot tipo1  {ROBOT FL}
+  variables
+    f,p,queJunto,quienSoy :numero
+    ok:boolean
+  comenzar
+    queJunto := 2
+    RecibirMensaje(quienSoy, robotFiscalizador)
+    f:=0
+    p:=0
+    BloquearEsquina(PosAv,PosCa)
+    repetir 10
+      HaciaArriba(queJunto,f, p)   
+    derecha
+    repetir 10
+      HaciaDerecha(queJunto, f, p)
+    derecha
+    repetir 10
+      HaciaAbajo(queJunto, f, p)
+    derecha
+    repetir 10
+      HaciaIzquierda(queJunto, f, p)
+    LiberarEsquina(PosAv,PosCa) 
+    EnviarMensaje(quienSoy,robotFiscalizador) 
+    RecibirMensaje(ok, robotFiscalizador)
+    EnviarMensaje(f,robotFiscalizador) 
+  fin
+  robot tipo2
+  variables
+    p,f,quienSoy, queJunto:numero
+    ok:boolean
+  comenzar
+    queJunto :=1
+    RecibirMensaje(quienSoy,robotFiscalizador)
+    p:=0
+    f:=0
+    BloquearEsquina(PosAv,PosCa)
+    repetir 2
+      derecha 
+    repetir 10
+      HaciaAbajo(queJunto, f, p)
+    derecha
+    repetir 10
+      HaciaIzquierda(queJunto, f, p)
+    derecha
+    repetir 10
+      HaciaArriba(queJunto, f, p)
+    derecha
+    repetir 10
+      HaciaDerecha(queJunto, f, p) 
+    LiberarEsquina(PosAv,PosCa) 
+    EnviarMensaje(quienSoy,robotFiscalizador) 
+    RecibirMensaje(ok, robotFiscalizador)
+    EnviarMensaje(p,robotFiscalizador)       
+  fin
+variables 
+  robotP1 : tipo2
+  robotP2 : tipo2
+  robotF1 : tipo1
+  robotF2 : tipo1 
+  robotFiscalizador : jefe
+  
+comenzar 
+  AsignarArea(robotP1, ciudad1)
+  AsignarArea(robotP2, ciudad2)
+  AsignarArea(robotF1, ciudad1)
+  AsignarArea(robotF2, ciudad2)
+  AsignarArea(robotFiscalizador, ciudad3)
+  Iniciar(robotF1, 3, 3)
+  Iniciar(robotP1, 13, 13) 
+  Iniciar(robotF2, 16, 3)
+  Iniciar(robotP2, 26, 13)
+  Iniciar(robotFiscalizador, 14, 6)
+fin
+
+

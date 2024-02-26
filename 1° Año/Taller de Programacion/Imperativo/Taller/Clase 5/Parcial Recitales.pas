@@ -1,0 +1,256 @@
+{El teatro Musicalisimo ofrece sus instalaciones para que bandas de música
+puedan dar sus recitales. De cada recital se conoce el nombre de la banda,
+el año en que se dio, la duración en minutos y la cantidad de entradas vendidas.
+
+Una misma banda puede dar más de un recital en un mismo año si lo desea y cada
+uno de esos recitales se registra por separado.
+
+Implementar un programa que:
+
+A.	Lea registros de recitales de manera sucesiva hasta que se ingrese el año 0.
+Los recitales pueden venir en cualquier orden. Todos los recitales leídos deben
+almacenarse en una estructura que permita la búsqueda óptima por año. Para cada
+año se desea guardar todos los recitales que se brindaron, dentro de un mismo
+año los recitales deben guardarse ordenados por nombre de banda.
+
+B.	Una vez finalizada la carga de recitales, el programa deberá pedir por
+teclado dos años (ej.: 1980 y 1989) e imprimir por pantalla todos los recitales
+que se brindaron entre esos dos años (ambos inclusive).
+
+C.	Luego implemente un módulo que recupere todos los recitales brindados solo
+en los años leídos (ej.: Solo 1980 y solo 1989) e informar para cada banda y en
+orden alfabético, la cantidad de recitales brindados, la cantidad total de
+entradas vendidas y la duración promedio de todos sus recitales. }
+
+
+program Recitales;
+const
+    dimf=2;
+type
+    cadena=string[50];
+    recital=record
+                nombre:cadena;
+                duracion: real;
+                cantent: integer;
+            end;
+
+    recital1=record
+                recitales:integer;
+                duracion: real;
+                cantent: integer;
+            end;
+
+    lista=^nodo;
+    nodo= record
+            dato: recital;
+            sig: lista;
+           end;
+    arbol=^nodo1;
+    nodo1= record
+               dato: lista;
+               anio: integer;
+               HI: arbol;
+               HD: arbol;
+           end;
+    vector = array[1..dimf]of lista;
+
+
+
+procedure leer(var r:recital; var anio:integer);
+begin
+    writeln('ingrese el anio');
+    readln(anio);
+    if(anio<>0) then begin
+        writeln('ingrese el nombre de la banda');
+        readln(r.nombre);
+        Randomize;
+        writeln('ingrese la duracion del recital');
+        r.duracion:= random(3)+1;
+        writeln('ingrese la cantidad de entradas vendidas');
+        r.cantent:= random(100)+900;
+    end;
+end;
+
+Procedure InsertarOrdenado(var L:lista;r:recital);
+ var ant,nue,act:lista;
+ begin
+      new(nue);
+      nue^.dato:=r;
+      act:=L;
+      ant:=L;
+      While (act<>nil)and(act^.dato.nombre<r.nombre)do begin
+            ant:=act;
+            act:=act^.sig;
+      end;
+      if(act=ant)then
+                     L:=nue
+      else
+          ant^.sig:=nue;
+      nue^.sig:=act;
+end;
+
+procedure InsertarABB(var a:arbol; dato:recital; anio:integer);
+var
+  aux:arbol;
+begin
+  if(a=nil)then begin
+    new(aux);
+    aux^.dato:=nil;
+    aux^.HI:=nil;
+    aux^.HD:=nil;
+    aux^.anio:=anio;
+    InsertarOrdenado(aux^.dato,dato);
+    a:=aux;
+  end
+  else
+    if(a^.anio>anio)then
+      InsertarABB(a^.HI, dato,anio)
+    else
+      if(a^.anio<anio)then
+        InsertarABB(a^.HD, dato,anio)
+        else
+          InsertarOrdenado(a^.dato,dato);
+end;
+
+procedure CargarArbol(var a:arbol);
+var
+    r:recital;
+    anio:integer;
+begin
+    leer(r,anio);
+    while (anio<>0) do begin
+      insertarABB(a,r,anio);
+      leer(r,anio);
+    end;
+end;
+
+procedure imprimirL(l:lista);
+begin
+  while(l<>nil)do begin
+    writeln('Recital: ',l^.dato.nombre);
+    l:=l^.sig;
+  end;
+end;
+
+procedure RecorridoAcotadoAn(a:arbol; inf,sup:integer);
+begin
+  if(a<>nil)then begin
+    if(a^.anio>=inf)then
+      if( a^.anio<=sup)then begin
+        imprimirL(a^.dato);
+        RecorridoAcotadoAn(a^.HI,inf,sup);
+        RecorridoAcotadoAn(a^.HD,inf,sup);
+      end
+      else
+        RecorridoAcotadoAn(a^.HI,inf,sup)
+    else
+      RecorridoAcotadoAn(a^.HD,inf,sup);
+  end;
+end;
+
+
+procedure Buscar (a:arbol; var p:lista;dato: integer);
+begin
+     if(a=nil) then
+                p:=nil
+     else
+         if(dato=a^.anio)then
+            p:=a^.dato
+         else
+             if(dato<a^.anio)then
+                  Buscar(a^.HI,p,dato)
+             else
+                  Buscar(a^.HD,p,dato);
+end;
+
+procedure CrearVector(var v:vector; a:arbol);
+var
+    p:lista;
+    anio1,i:integer;
+begin
+    for i:=1 to dimf do begin
+        writeln('ingrese el año');
+        readln(anio1);
+        Buscar(a,p,anio1);
+        while(p=nil) do begin
+            writeln('no se encontro el anio e ingrese nuevo anio');
+            readln(anio1);
+        end;
+        v[i]:=p;
+    end;
+end;
+
+procedure Borrar(var l:lista);
+begin
+    l:=l^.sig;
+end;
+procedure buscarMin(var v:vector;var E:lista);
+var
+    min:cadena;
+    i,pos:integer;
+begin
+    min:='zzz';
+
+    for i:=1 to Dimf do begin
+        if (v[i]<>NIl)then
+             if(v[i]^.dato.nombre<min)then begin
+                    min:=v[i]^.dato.nombre;
+                    pos:=i;
+                    E:=v[i];
+             end;
+
+    end;
+    if(min<>'zzz')then
+        Borrar(v[pos])
+    else
+        E:=nil;
+
+end;
+
+procedure Merge(var v:vector);
+var
+    E:lista;
+    aux:recital1;
+    NomAct:cadena;
+    recitales, entradas:integer;
+    promediod,duraciont:real;
+begin
+    buscarmin(v,E);
+    while(E<>nil) do begin
+        NomAct:=e^.dato.nombre;
+        recitales:=0;
+        entradas:=0;
+        duraciont:=0;
+        while(E<>NIl) and(E^.dato.nombre=NomAct) do begin
+            recitales:=recitales+1;
+            entradas:= entradas+ e^.dato.cantent;
+            duraciont:=duraciont+e^.dato.duracion;
+            buscarmin(v,E);
+        end;
+        promediod:= duraciont/recitales;
+        aux.cantent:=entradas;
+        aux.duracion:= promediod;
+        aux.recitales:= recitales;
+        writeln('Banda: ',NomAct,'vendio un total de entradas de ',aux.cantent,' la duracion promedio de los shows es ',
+        aux.duracion,' la cantidad de recitales es ',aux.recitales);
+
+    end;
+end;
+var
+    a:arbol;
+    sup,inf:integer;
+    v:vector;
+begin
+    CargarArbol(a);
+    writeln('ingrese un anio inferior y un anio superior');
+    readln(inf);
+    readln(sup);
+    RecorridoAcotadoAn(a, inf,sup);
+    CrearVector(v,a);
+    Merge(v);
+    readln;
+end.
+
+
+
+

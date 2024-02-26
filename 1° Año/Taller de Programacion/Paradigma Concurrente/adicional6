@@ -1,0 +1,140 @@
+programa EjercicioADICIONAL6
+procesos
+  proceso juntarFlor
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+  proceso depositarFlores 
+  comenzar
+    mientras (HayFlorEnLaBolsa)
+      depositarFlor
+  fin  
+  proceso AsignarEquipos
+  comenzar
+    EnviarMensaje(1, robot1E1)
+    EnviarMensaje(1, robot2E1)
+    EnviarMensaje(2, robot1E2)  
+    EnviarMensaje(1, robot2E2) 
+  fin
+areas
+  ciudadE1 : AreaPC(1,10,100,25)  
+  ciudadE2 : AreaPC(1,30,100,45)
+  ciudadJefe : AreaP(1,1,1,1)
+  ciudad1 : AreaP(2,2,2,2)
+  ciudad2 : AreaP(3,3,3,3)
+  ciudad3 : AreaP(4,4,4,4)
+  ciudad4 : AreaP(5,5,5,5)
+robots 
+  robot jefe
+  variables
+    A,v,quienSos:numero
+    arranca:numero
+  comenzar
+    AsignarEquipos
+    Random(A, 1, 5)              
+    EnviarMensaje(A, robot1E1)    {ANCHO DEL RECTANGULO A RECORRER}
+    EnviarMensaje(A, robot2E1)
+    EnviarMensaje(A, robot1E2) 
+    EnviarMensaje(A, robot2E2) 
+    Random(v, 1, 95)           
+    EnviarMensaje(v, robot1E1)    {NUMERO DE AVENIDA QUE COMIENZA EL RECTANGULO}
+    EnviarMensaje(v, robot2E1)
+    EnviarMensaje(v, robot1E2)  
+    EnviarMensaje(v, robot2E2) 
+    EnviarMensaje(10, robot1E1)   {CALLE DE COMIENZO RECTANGULO DE CADA EQUIPO}
+    EnviarMensaje(10, robot2E1)
+    EnviarMensaje(30, robot1E2)  
+    EnviarMensaje(30, robot2E2)
+    EnviarMensaje(15, robot1E1)   {CALLE DEL DEPOSITO}
+    EnviarMensaje(15, robot2E1)
+    EnviarMensaje(40, robot1E2)  
+    EnviarMensaje(40, robot2E2)
+    repetir 2
+      RecibirMensaje(quienSos, *)
+      si (quienSos = 1)
+        EnviarMensaje(arranca, robot2E1)
+      si (quienSos = 2)
+        EnviarMensaje(arranca, robot2E2)
+    RecibirMensaje(quienSos, *)
+    Informar('EL-EQUIPO-GANADOR-ESS', quienSos)
+    RecibirMensaje(quienSos, *)
+  fin
+  robot tipo1  {ROBOT RECOLECTOR FLORES\}
+  variables
+    v,calle,A,a,c,dep,quienSoy:numero
+    ok:boolean
+  comenzar
+    a:=PosAv
+    c:=PosCa
+    RecibirMensaje(quienSoy, robotJefe)
+    RecibirMensaje(A, robotJefe)
+    RecibirMensaje(v, robotJefe)
+    RecibirMensaje(calle, robotJefe)
+    RecibirMensaje(dep, robotJefe)
+    Pos(v, calle)
+    repetir 2
+      repetir 15
+        mover
+        tomarFlor
+      derecha
+      repetir A
+        mover
+        tomarFlor
+      derecha
+    Pos(5,dep)
+    depositarFlores
+    Pos(a,c)   
+    EnviarMensaje(quienSoy, robotJefe)
+  fin
+  robot tipo2  {ROBOT DEPOSITADOR FLORES\}
+  variables
+    v,calle,A,a,c,quienSoy,dep:numero
+    arranca:boolean
+  comenzar
+    a:=PosAv
+    c:=PosCa
+    RecibirMensaje(quienSoy, robotJefe)
+    RecibirMensaje(A, robotJefe)
+    RecibirMensaje(v, robotJefe)
+    RecibirMensaje(calle, robotJefe)
+    RecibirMensaje(dep, robotJefe)
+    RecibirMensaje(arranca, robotJefe)
+    Pos(5, dep)
+    juntarFlor
+    Pos(v,calle)
+    repetir 2
+      repetir 15
+        mover
+        depositarFlor
+      derecha
+      repetir A
+        mover
+        depositarFlor
+      derecha
+    EnviarMensaje(quienSoy, robotJefe)  
+    Pos(a,c)  
+  fin
+variables 
+  robot1E1 : tipo1
+  robot1E2 : tipo1
+  robot2E1 : tipo2
+  robot2E2 : tipo2 
+  robotJefe : jefe
+  
+comenzar 
+  AsignarArea(robot1E1, ciudad1)
+  AsignarArea(robot2E1, ciudad2)
+  AsignarArea(robot1E2, ciudad3)
+  AsignarArea(robot2E2, ciudad4)
+  AsignarArea(robotJefe, ciudadJefe)
+  AsignarArea(robot1E1, ciudadE1)
+  AsignarArea(robot1E2, ciudadE2)
+  AsignarArea(robot2E1, ciudadE1)
+  AsignarArea(robot2E2, ciudadE2)
+  Iniciar(robot1E1, 2, 2)
+  Iniciar(robot2E1, 3, 3) 
+  Iniciar(robot1E2, 4, 4)
+  Iniciar(robot2E2, 5, 5)
+  Iniciar(robotJefe, 1, 1)
+fin

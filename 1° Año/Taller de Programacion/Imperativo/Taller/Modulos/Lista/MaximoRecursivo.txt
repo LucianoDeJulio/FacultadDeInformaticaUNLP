@@ -1,0 +1,8 @@
+procedure Maximo(l:lista; var max:integer);
+begin
+  if(l<>nil)then begin
+     if(l^.datos>max)then
+       max:=l^.datos;
+     maximo(l^.sig,max);
+  end;
+end;

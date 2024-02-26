@@ -1,0 +1,8 @@
+Procedure recorrido ( pri : lista);
+
+Begin
+ while (pri <> NIL) do begin
+   writeln(pri^.datos);
+   pri:= pri^.sig
+ end;
+end;

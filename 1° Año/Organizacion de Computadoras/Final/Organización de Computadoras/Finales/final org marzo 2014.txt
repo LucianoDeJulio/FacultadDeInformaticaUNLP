@@ -1,0 +1,5 @@
+1) Que define el teorema fundamental de la numeración? Interpretar el legajo como BCD y calcular el valor decimal que representa.
+2) Que definen las denominadas Leyes de Morgan? Describa y grafique las funciones elementales utilizando un tipo de compuertas.
+3) Jerarquía de memoria. Cuadro comparativo de sus prestaciones.
+4) Como se componen las instrucciones máquina. Describir dos componentes.
+5) Métodos de impresión

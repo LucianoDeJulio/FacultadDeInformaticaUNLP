@@ -1,0 +1,219 @@
+programa ejercicio-Adicional-5
+procesos
+  proceso juntarFlores(ES flores:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores:=flores+1    
+  fin
+  proceso juntarPapeles(ES papeles:numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      papeles:=papeles+1
+  fin
+  proceso hacerRectanguloAcostado(ES flores:numero;ES papeles:numero;E ca1:numero;E ca2:numero)
+  variables
+    av:numero
+  comenzar
+    Pos(1,ca1)
+    derecha
+    av:=PosAv
+    repetir 2
+      av:=av+1
+      BloquearEsquina(av,ca1)
+      mover
+      juntarPapeles(papeles)
+      juntarFlores(flores)
+      mover
+      LiberarEsquina(av,ca1)
+      juntarFlores(flores)
+      juntarPapeles(papeles)
+      av:=av+2
+      BloquearEsquina(av,ca1)
+      mover
+      juntarFlores(flores)
+      juntarPapeles(papeles)
+      mover
+      LiberarEsquina(av,ca1)
+      juntarFlores(flores)
+      juntarPapeles(papeles)
+      av:=av+1
+    repetir 3
+      derecha
+    repetir 2
+      mover
+      juntarFlores(flores)
+      juntarPapeles(papeles)
+    repetir 3 
+      derecha
+    av:=PosAv
+    repetir 2
+      av:=av - 1
+      BloquearEsquina(av,ca2)
+      mover
+      juntarFlores(flores)
+      juntarPapeles(papeles)
+      mover
+      LiberarEsquina(av,ca2)
+      juntarFlores(flores)
+      juntarPapeles(papeles)
+      av:=av - 2
+      BloquearEsquina(av,ca2)
+      mover
+      juntarFlores(flores)
+      juntarPapeles(papeles)
+      mover
+      LiberarEsquina(av,ca2)
+      juntarFlores(flores)
+      juntarPapeles(papeles)
+      av:=av - 1
+    repetir 3
+      derecha
+    repetir 2
+      mover
+      juntarFlores(flores)
+      juntarPapeles(papeles)
+  fin
+  proceso hacerRectanguloParado(ES flores:numero;ES papeles:numero;E av1:numero;E av2:numero)
+  variables
+    ca:numero
+  comenzar
+    Pos(av1,1)
+    ca:=PosCa
+    repetir 2
+      ca:=ca+1
+      BloquearEsquina(av1,ca)
+      mover
+      juntarPapeles(papeles)
+      juntarFlores(flores)
+      mover
+      LiberarEsquina(av1,ca)
+      juntarFlores(flores)
+      juntarPapeles(papeles)
+      ca:=ca+2
+      BloquearEsquina(av1,ca)
+      mover
+      juntarFlores(flores)
+      juntarPapeles(papeles)
+      mover
+      LiberarEsquina(av1,ca)
+      juntarFlores(flores)
+      juntarPapeles(papeles)
+      ca:=ca+1
+    derecha
+    repetir 2
+      mover
+      juntarFlores(flores)
+      juntarPapeles(papeles) 
+    derecha
+    ca:=PosCa
+    repetir 2
+      ca:=ca - 1
+      BloquearEsquina(av2,ca)
+      mover
+      juntarFlores(flores)
+      juntarPapeles(papeles)
+      mover
+      LiberarEsquina(av2,ca)
+      juntarFlores(flores)
+      juntarPapeles(papeles)
+      ca:=ca - 2
+      BloquearEsquina(av2,ca)
+      mover
+      juntarFlores(flores)
+      juntarPapeles(papeles)
+      mover
+      LiberarEsquina(av2,ca)
+      juntarFlores(flores)
+      juntarPapeles(papeles)
+      ca:=ca - 1
+    derecha
+    repetir 2
+      mover
+      juntarFlores(flores)
+      juntarPapeles(papeles)
+  fin
+
+areas
+  areaRobot1: AreaP(20,1,20,1)
+  areaRobot2:AreaP(20,2,20,2)
+  areaRobot3:AreaP(20,4,20,4)
+  areaRobot4:AreaP(20,5,20,5)
+  areaCRobot1: AreaPC(1,2,9,4)
+  areaCRobot2: AreaPC(1,6,9,8)
+  areaCRobot3: AreaPC(2,1,4,9)
+  areaCRobot4: AreaPC(6,1,8,9)
+  areaJefe: AreaP(20,15,20,15)
+robots
+  robot tipo1
+  variables
+    flores:numero
+    papeles:numero
+    ca1:numero
+    ca2:numero
+  comenzar
+    RecibirMensaje(ca1,j)
+    RecibirMensaje(ca2,j)
+    papeles:=0
+    flores:=0
+    hacerRectanguloAcostado(flores,papeles,ca1,ca2)
+    EnviarMensaje(flores,j)
+    EnviarMensaje(papeles,j)
+  fin
+  robot tipo2
+  variables
+    flores,papeles:numero
+    av1:numero
+    av2:numero
+  comenzar
+    RecibirMensaje(av1,j)
+    RecibirMensaje(av2,j)
+    hacerRectanguloParado(flores,papeles,av1,av2)
+    EnviarMensaje(flores,j)
+    EnviarMensaje(papeles,j)
+  fin
+  robot jefe
+  variables
+    totalFlores,totalPapeles:numero
+    totalP,totalF:numero
+  comenzar
+    EnviarMensaje(2,r1)
+    EnviarMensaje(4,r1)
+    EnviarMensaje(6,r2)
+    EnviarMensaje(8,r2)
+    EnviarMensaje(2,r3)
+    EnviarMensaje(4,r3)
+    EnviarMensaje(6,r4)
+    EnviarMensaje(8,r4)
+    repetir 4
+      RecibirMensaje(totalF,*)
+      RecibirMensaje(totalP,*)
+      totalFlores:=totalFlores+totalF
+      totalPapeles:=totalPapeles+totalP
+    Informar(totalFlores)
+    Informar(totalPapeles)    
+  fin
+variables
+  r1:tipo1
+  r2:tipo1
+  r3:tipo2
+  r4:tipo2
+  j:jefe
+comenzar
+  AsignarArea(r1,areaRobot1)
+  AsignarArea(r2,areaRobot2)
+  AsignarArea(r3,areaRobot3)
+  AsignarArea(r4,areaRobot4)
+  AsignarArea(r1,areaCRobot1)
+  AsignarArea(r2,areaCRobot2)
+  AsignarArea(r3,areaCRobot3)
+  AsignarArea(r4,areaCRobot4)
+  AsignarArea(j,areaJefe)
+  Iniciar(r1,20,1)
+  Iniciar(r2,20,2)
+  Iniciar(r3,20,4)
+  Iniciar(r4,20,5)
+  Iniciar(j,20,15)
+fin
+

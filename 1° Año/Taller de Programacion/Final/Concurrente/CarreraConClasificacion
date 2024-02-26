@@ -1,0 +1,182 @@
+programa adicional-7 
+areas 
+  calle1 : AreaP(10,10,20,10)
+  casa1 : AreaP(1,1,1,1) 
+  calle2 : AreaP(10,12,20,12)
+  casa2 : AreaP(2,2,2,2)
+  calle3 : AreaP(10,14,20,14)
+  casa3 : AreaP(3,3,3,3) 
+  calle4 : AreaP(10,16,20,16)
+  casa4 : AreaP(4,4,4,4) 
+  casaF : AreaP(5,5,5,5)
+  callef1 : AreaPC(10,15,20,15) 
+  callef2 : AreaPC(10,11,20,11) 
+  depositoP : AreaPC(9,13,9,13) 
+  depositoF : AreaPC(21,13,21,13) 
+  
+robots
+  robot tipo1
+  variables
+    av : numero
+    ca : numero
+    avV : numero
+    caV : numero
+    caI : numero
+    id : numero
+    vuelta : boolean
+  comenzar
+    RecibirMensaje(id, rF)
+    RecibirMensaje(caI,rF)
+    av := PosAv
+    ca := PosCa
+    mientras(HayFlorEnLaBolsa)
+      depositarFlor
+    mientras(HayPapelEnLaBolsa)
+      depositarPapel
+    Pos(10,caI)
+    derecha
+    repetir 10
+      si (HayFlorEnLaEsquina)
+        tomarFlor
+      mover
+    avV := PosAv
+    caV := PosCa
+    mientras(HayFlorEnLaBolsa)
+      BloquearEsquina(21,13)
+      Pos(21,13)
+      depositarFlor
+      Pos(avV,caV)
+      LiberarEsquina(21,13)
+    EnviarMensaje(id,rF)
+    RecibirMensaje(vuelta, rF)
+    si(vuelta = V)
+      repetir 2
+        derecha
+      repetir 10
+        si(HayPapelEnLaEsquina)
+          tomarPapel
+        mover
+      avV := PosAv
+      caV := PosCa
+      mientras(HayPapelEnLaBolsa)
+        BloquearEsquina(9,13)
+        Pos(9,13)
+        depositarPapel
+        Pos(avV, caV)
+        LiberarEsquina(9,13)
+      EnviarMensaje(id, rF)
+      Pos(av,ca)
+    sino
+      Pos(av,ca)
+  fin
+     
+  robot fisco
+  variables
+    termine : boolean
+    finalista1, finalista2, perdedor1, perdedor2, ganador, perdedor : numero
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(10, r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(12, r2)
+    EnviarMensaje(3,r3)
+    EnviarMensaje(14,r3)
+    EnviarMensaje(4,r4)
+    EnviarMensaje(16,r4)
+    RecibirMensaje(finalista1, *)
+    RecibirMensaje(finalista2,*)
+    RecibirMensaje(perdedor1,*)
+    RecibirMensaje(perdedor2, *)
+    si(finalista1 = 1)
+      EnviarMensaje(V, r1)
+    sino
+      si(finalista1 = 2)
+        EnviarMensaje(V,r2)
+      sino 
+        si(finalista1 = 3) 
+          EnviarMensaje(V,r3) 
+        sino 
+          EnviarMensaje(V, r4) 
+    si(finalista2 = 1) 
+      EnviarMensaje(V, r1)  
+    sino  
+      si(finalista2 = 2) 
+        EnviarMensaje(V,r2)   
+      sino  
+        si(finalista2 = 3)  
+          EnviarMensaje(V,r3)  
+        sino 
+          EnviarMensaje(V, r4) 
+    si(perdedor1 = 1) 
+      EnviarMensaje(F, r1)
+    sino
+      si(perdedor1 = 2)
+        EnviarMensaje(F,r2)
+      sino
+        si(perdedor1 = 3)
+          EnviarMensaje(F,r3) 
+        sino 
+          EnviarMensaje(F,r4) 
+    si(perdedor2 = 1)
+      EnviarMensaje(F, r1)
+    sino
+      si(perdedor2 = 2)
+        EnviarMensaje(F,r2)
+      sino
+        si(perdedor2 = 3)
+          EnviarMensaje(F,r3)
+        sino
+          EnviarMensaje(F,r4)
+    RecibirMensaje(ganador, *)
+    RecibirMensaje(perdedor, *)
+    Informar('Gano',ganador)
+    Informar('Looser', perdedor)
+  fin
+    
+variables 
+  r1 : tipo1
+  r2 : tipo1
+  r3 : tipo1
+  r4 : tipo1
+  rF : fisco 
+comenzar 
+  AsignarArea(r1, calle1)
+  AsignarArea(r1, casa1)
+  AsignarArea(r1, callef1)
+  AsignarArea(r1, callef2)
+  AsignarArea(r1, depositoP)
+  AsignarArea(r1, depositoF)
+  
+  AsignarArea(r2, calle2)
+  AsignarArea(r2, casa2)
+  AsignarArea(r2, callef1)
+  AsignarArea(r2, callef2)
+  AsignarArea(r2, depositoP)
+  AsignarArea(r2, depositoF)
+
+  AsignarArea(r3, calle3)
+  AsignarArea(r3, casa3)
+  AsignarArea(r3, callef1)
+  AsignarArea(r3, callef2)
+  AsignarArea(r3, depositoP)
+  AsignarArea(r3, depositoF)
+
+  AsignarArea(r4, calle4)
+  AsignarArea(r4, casa4)
+  AsignarArea(r4, callef1)
+  AsignarArea(r4, callef2)
+  AsignarArea(r4, depositoP)
+  AsignarArea(r4, depositoF)
+  
+  AsignarArea(rF, casaF)
+  
+  Iniciar(r1, 1,1)
+  Iniciar(r2, 2,2)
+  Iniciar(r3, 3,3)
+  Iniciar(r4, 4,4)
+  Iniciar(rF, 5,5)
+  
+fin 
+
+
+  

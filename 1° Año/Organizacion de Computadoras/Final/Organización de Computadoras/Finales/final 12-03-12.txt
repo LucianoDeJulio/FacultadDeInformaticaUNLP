@@ -1,0 +1,8 @@
+Definir el teorema fundamental de la numeración. Tomando tu número de legajo como BCD desempaquetado sin número, qué numero sería si fuese BSS?
+
+Explicar y decribir las leyes de morgan. Hacer las 3 funciones lógicas fundamentales usando sólo un tipo de compuerta.
+
+¿Qué es y por qué se usa la jerarquía de memoria? Caracterizar mediante una tabla las tecnologías de los niveles.
+
+¿Cuáles son los elementos del diseño de instrucciones de máquina? Describir detalladamente dos.
+Impresoras: Explicar mecanismos.

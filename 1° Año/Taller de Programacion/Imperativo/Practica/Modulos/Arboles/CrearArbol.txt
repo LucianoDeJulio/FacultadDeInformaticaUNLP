@@ -1,0 +1,17 @@
+Program arboles;
+Type
+
+  // Arbol de enteros
+  arbol= ^nodoA;
+  nodoA = Record
+    dato: integer;
+    HI: arbol;
+    HD: arbol;
+  End;
+
+  // Lista de Arboles
+  listaNivel = ^nodoN;
+  nodoN = record
+    info: arbol;
+    sig: listaNivel;
+  end;

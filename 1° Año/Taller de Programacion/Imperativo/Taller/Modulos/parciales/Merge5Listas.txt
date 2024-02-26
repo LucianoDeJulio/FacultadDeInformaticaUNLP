@@ -1,0 +1,162 @@
+program CajaSupermercado;
+const
+  dimf = 5;
+type
+  producto = record
+             CodP:integer;
+             CantV:integer;
+             CodC:integer;
+             end;
+  lista = ^nodo;
+  nodo = record
+         dato: producto;
+         sig:lista;
+         end;
+  vector = array[1 .. dimf]of lista;
+
+procedure leer (var a: producto);
+begin
+     writeln('Ingrese el codigo de producto.');
+     readln(a.CodP);
+     if (a.CodP<> -1) then begin
+         writeln('ingrese la cantidad vendida.');
+         readln(a.CantV);
+         writeln('ingrese el codigo de cliente.');
+         randomize;
+         a.CodC:= random(200);
+         writeln(a.codC);
+     end;
+end;
+
+Procedure InsertarElemento ( var pri: lista; per: producto);
+var ant, nue, act: lista;
+begin
+  new (nue);
+  nue^.dato := per;
+  act := pri;
+  ant := pri;
+
+  while (act<>NIL) and (act^.dato.CodP < per.CodP) do begin
+      ant := act;
+      act := act^.sig ;
+  end;
+  if (ant = act)  then
+    pri := nue
+  else
+    ant^.sig  := nue;
+  nue^.sig := act ;
+end;
+
+Procedure CrearVector(var v:vector);
+var
+  p:producto;
+  i:integer;
+begin
+  for i:= 1 to dimf do begin
+    Leer(p);
+    while(p.CodP<>-1)do begin
+      InsertarElemento( v[i], p);
+      Leer(p);
+    end;
+  end;
+end;
+
+Procedure AgregarAtras (var L:lista; N:lista);
+var nue,act:lista;
+begin
+     act:=L;
+     nue:=N;
+     nue^.sig:=nil;
+     if(L<>nil)then
+     begin
+          act:=L;
+          while(act^.sig<>nil)do
+                                act:=act^.sig;
+          act^.sig:=nue;
+     end
+     else
+         L:=nue;
+end;
+
+procedure Borrar(var l:lista);
+begin
+    l:=l^.sig;
+end;
+procedure buscarMin(var v:vector;var E:lista);
+var
+    min:integer;
+    i,pos:integer;
+begin
+    min:=9999;
+
+    for i:=1 to Dimf do begin
+        if (v[i]<>NIl)then
+             if(v[i]^.dato.CodP<min)then begin
+                    min:=v[i]^.dato.CodP;
+                    pos:=i;
+                    E:=v[i];
+             end;
+
+    end;
+    if(min<>9999)then
+        Borrar(v[pos])
+    else
+        E:=nil;
+
+end;
+
+procedure Merge(var v:vector; var l:lista);
+var
+    E,aux:lista;
+    CantidadT: integer;
+begin
+    buscarmin(v,E);
+    while(E<>nil) do begin
+        aux:=e;
+        CantidadT:=0;
+        while(E<>NIl) and(E^.dato.CodP=aux^.dato.CodP) do begin
+            CantidadT:=CantidadT+E^.dato.CantV;
+            buscarmin(v,E);
+        end;
+        aux^.dato.CantV:=CantidadT;
+        aux^.sig:=nil;
+        agregaratras(l,aux);
+    end;
+end;
+
+procedure Maximo(l:lista; var maxP,maxV:integer);
+begin
+  if(l<>nil)then begin
+     if(l^.dato.CantV>maxV)then begin
+       maxV:=l^.dato.CantV;
+       maxP:=l^.dato.CodP;
+     end;
+     maximo(l^.sig,maxP,maxV);
+  end;
+end;
+
+Procedure recorrido ( pri : lista);
+
+Begin
+ while (pri <> NIL) do begin
+   writeln('Codigo de producto: ',pri^.dato.CodP,' cantidad total vendida: ',pri^.dato.CantV,'.');
+   pri:= pri^.sig
+ end;
+end;
+
+var
+  l:lista;
+  v:vector;
+  maxV,maxP:integer;
+begin
+  CrearVector(v);
+  writeln('Se realizara un Merge.');
+  Merge(v,l);
+  writeln('Nueva lista.');
+  recorrido(l);
+  maxV:=-1;
+  Maximo(l,maxP,maxV);
+  writeln('El codigo de producto que mas se vendio es: ',MaxP,' con un total de ',MaxV,' productos vendidos.');
+  writeln('Fin.');
+  readln;
+end.

@@ -1,0 +1,21 @@
+procedure Max(a:arbol; var x:integer);
+begin
+  if(a=nil)then
+    x:=-1
+  else
+    if(a^.HD=nil)then
+      x:=a^.dato
+    else
+        Max(a^.HD,x);
+end;
+
+procedure Min(a:arbol; var x:integer);
+begin
+  if(a=nil)then
+    x:=-1
+  else
+    if(a^.HI=nil)then
+      x:=a^.dato
+    else
+        Min(a^.HI,x);
+end;

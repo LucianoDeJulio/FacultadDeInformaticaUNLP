@@ -1,0 +1,10 @@
+procedure sumar (v:vector; diml:integer;i:integer; var suma:integer);
+
+begin
+
+   if (i<=diml) then begin
+                suma:=suma+v[i];
+                i:=i+1;
+                sumar(v,diml,i,suma);
+   end;
+end;

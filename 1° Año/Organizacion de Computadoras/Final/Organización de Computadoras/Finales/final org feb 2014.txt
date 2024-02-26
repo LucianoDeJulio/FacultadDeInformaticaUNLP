@@ -1,0 +1,5 @@
+1) Representacion en un sistema de punto flotante de tu numero de alumno dividido 5.
+2) Caracteristicas importantes para diseñar un repertorio de instrucciones.
+3) Sumador Completo (Tabla de verdad, diagrama de puertas logicas)
+4) No me acuerdo bien, pero era algo de si beneficiaba agregar otro puntero de pila (stack pointer).
+5) Agregar una instruccion a un programa en assembler para verificar si la suma de 2 numeros tenia resultado correcto.

@@ -1,0 +1,13 @@
+procedure AgregarAlFinal (var pri, ult: lista; per: integer);
+var  nue : lista;
+
+begin 
+ new (nue);
+ nue^.datos:= per;
+ nue^.sig := NIL;
+ if pri <> Nil then 
+                 ult^.sig := nue
+               else 
+                 pri := nue;
+ ult := nue;
+end;

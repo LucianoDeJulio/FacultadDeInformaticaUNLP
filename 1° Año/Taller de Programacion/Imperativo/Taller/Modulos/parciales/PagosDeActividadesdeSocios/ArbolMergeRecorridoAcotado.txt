@@ -1,0 +1,268 @@
+program Socios;
+const
+  dimf = 2;
+type
+  Socio = record
+          numP:integer;
+          Valor:real;
+          NumS:integer;
+          end;
+  lista = ^nodo;
+  nodo = record
+         dato:Socio;
+         sig:lista;
+         end;
+  Actividad = record
+              CodA:integer;
+              CatA:integer;
+              end;
+  Arbol = ^Nodoo;
+  Nodoo = record
+          dato:Actividad;
+          Pagos:Lista;
+          HI:Arbol;
+          HD:Arbol;
+          end;
+  vector = array[1 .. dimf]of lista;
+
+procedure leer (var a: Actividad; var p:Socio );
+begin
+     writeln('Ingrese codigo de actividad.');
+     readln(a.CodA);
+     if (a.CodA<> 0) then begin
+         writeln('ingrese la categoria de la actividad.');
+         readln(a.CatA);
+         writeln('ingrese numero de socio.');
+         readln(p.NumS);
+         writeln('ingrese numero de pago.');
+         randomize;
+         p.NumP:=Random(200)+1;
+         writeln('ingrese valor.');
+         readln(p.Valor);
+     end;
+end;
+
+Procedure InsertarElemento ( var pri: lista; per: Socio);
+var ant, nue, act: lista;
+begin
+  new (nue);
+  nue^.dato := per;
+  act := pri;
+  ant := pri;
+  while (act<>NIL) and (act^.dato.NumS < per.NumS) do begin
+      ant := act;
+      act := act^.sig ;
+  end;
+  if (ant = act)  then
+    pri := nue
+  else
+    ant^.sig  := nue;
+  nue^.sig := act ;
+end;
+
+procedure InsertarABB(var a:arbol; dato:Actividad; S:Socio);
+var
+  aux:arbol;
+begin
+  if(a=nil)then begin
+    new(aux);
+    aux^.dato:=dato;
+    aux^.HI:=nil;
+    aux^.HD:=nil;
+    aux^.Pagos:=nil;
+    InsertarElemento(aux^.Pagos,S);
+    a:=aux;
+  end
+  else
+    if(a^.dato.CodA>dato.CodA)then
+      InsertarABB(a^.HI, dato,S)
+    else
+      if(a^.dato.CodA<dato.CodA)then
+        InsertarABB(a^.HD, dato,S)
+        else
+          InsertarElemento(a^.Pagos,S);
+end;
+
+procedure CargarArbol(var a:arbol);
+var
+  ac:Actividad;
+  p:Socio;
+begin
+    Leer(ac,p);
+    while (ac.CodA<>0) do begin
+    insertarABB(a,ac,p);
+    Leer(ac,p);
+ end;
+end;
+
+procedure Buscar (a:arbol; var p:lista; dato: integer);
+begin
+     if(a=nil) then
+                p:=nil
+     else
+         if(dato=a^.dato.CodA)then
+            p:=a^.Pagos
+         else
+             if(dato<a^.dato.CodA)then
+                  Buscar(a^.HI,p,dato)
+             else
+                  Buscar(a^.HD,p,dato);
+end;
+
+procedure CrearVector(var v:vector; a:arbol);
+var
+    p:lista;
+    anio1,i:integer;
+begin
+    for i:=1 to dimf do begin
+        writeln('ingrese el año');
+        readln(anio1);
+        Buscar(a,p,anio1);
+        while(p=nil) do begin
+            writeln('no se encontro el anio e ingrese nuevo anio');
+            readln(anio1);
+        end;
+        v[i]:=p;
+    end;
+end;
+
+Procedure AgregarAtras (var L:lista; N:lista);
+var nue,act:lista;
+begin
+     act:=L;
+     nue:=N;
+     nue^.sig:=nil;
+     if(L<>nil)then
+     begin
+          act:=L;
+          while(act^.sig<>nil)do
+                                act:=act^.sig;
+          act^.sig:=nue;
+     end
+     else
+         L:=nue;
+end;
+
+procedure Borrar(var l:lista);
+begin
+    l:=l^.sig;
+end;
+procedure buscarMin(var v:vector;var E:lista);
+var
+    min:integer;
+    i,pos:integer;
+begin
+    min:=999999;
+
+    for i:=1 to Dimf do begin
+        if (v[i]<>NIl)then
+             if(v[i]^.dato.NumS<min)then begin
+                    min:=v[i]^.dato.NumS;
+                    pos:=i;
+                    E:=v[i];
+             end;
+
+    end;
+    if(min<>999999)then
+        Borrar(v[pos])
+    else
+        E:=nil;
+
+end;
+
+procedure Merge(var v:vector; var l:lista);
+var
+    E,aux:lista;
+    GastoTot: real;
+begin
+    buscarmin(v,E);
+    while(E<>nil) do begin
+        aux:=e;
+        GastoTot:=0;
+        while(E<>NIl) and(E^.dato.NumS=aux^.dato.NumS) do begin
+            gastotot:=gastotot+E^.dato.Valor;
+            buscarmin(v,E);
+        end;
+        aux^.dato.Valor:=gastotot;
+        aux^.sig:=nil;
+        agregaratras(l,aux);
+
+    end;
+end;
+
+Procedure recorrido ( pri : lista);
+
+Begin
+ while (pri <> NIL) do begin
+   writeln('Numero de socio: ',pri^.dato.NumS,' monto total: $', pri^.dato.Valor:3:2);
+   pri:= pri^.sig
+ end;
+end;
+
+Procedure recorrido1 ( pri : lista; a:arbol);
+
+Begin
+ writeln('Codigo de Actividad: ',a^.dato.CodA,' Categoria: ',a^.dato.CatA);
+ recorrido(pri);
+end;
+
+procedure EnOrden(a:arbol);
+begin
+ if(a<>nil) then begin
+    EnOrden(a^.HI);
+    recorrido1(a^.Pagos, a);
+    EnOrden(a^.HD);
+ end;
+end;
+
+procedure RecorridoAcotadoPre(a:arbol; var contador:integer);
+begin
+  if(a<>nil)then begin
+    if(a^.dato.CatA=10)then
+        contador:=contador+1;
+    RecorridoAcotadoPre(a^.HI,contador);
+    RecorridoAcotadoPre(a^.HD,contador);
+  end;
+end;
+
+procedure RecorridoAcotado(a:arbol; inf,sup:integer; var contador:integer);
+begin
+  if(a<>nil)then begin
+    if(a^.dato.CodA>=inf)then
+      if( a^.dato.CodA<=sup)then begin
+        contador:=contador+1;
+        RecorridoAcotado(a^.HI,inf,sup,contador);
+        RecorridoAcotado(a^.HD,inf,sup,contador);
+      end
+      else
+        RecorridoAcotado(a^.HI,inf,sup,contador)
+    else
+      RecorridoAcotado(a^.HD,inf,sup,contador);
+  end;
+end;
+
+var
+  a:arbol;
+  v:vector;
+  contador,inf,sup:integer;
+  w:lista;
+begin
+  CargarArbol(a);
+  CrearVector(v,a);
+  writeln('Arbol generado: ');
+  EnOrden(a);
+  writeln;
+  Merge(v,w);
+  writeln('Lista generada por el Merge.');
+  recorrido ( w );
+  contador:=0;
+  RecorridoAcotadoPre(a,contador);
+  Writeln('La cantidad de actividades con categoria 10 es: ',contador);
+  Writeln('Ingrese un numero de actividad inferior y uno superior para saber la cantidad de actividades que se encuentran entre ellos.');
+  readln(inf);
+  readln(sup);
+  contador:=0;
+  RecorridoAcotado(a,inf,sup,contador);
+  Writeln('La cantidad de actividades entre la actividad ',inf,' y la ',sup,' es ',contador);
+  readln;
+end.

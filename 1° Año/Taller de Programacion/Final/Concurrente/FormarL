@@ -1,0 +1,127 @@
+programa adicional-4
+areas
+  area1 : AreaP (50,50,50,50)
+  area2 : AreaP(51,51,51,51)
+  area3 : AreaP(52,52,52,52)
+  area4 : AreaP(53,53,53,53)
+  areaF : AreaP(1,1,1,1)
+  area5 : AreaPC(5,4,15,15)
+robots
+  robot vertical
+  variables
+    id : numero
+    av : numero
+    ca : numero
+    avC : numero
+    equipo : numero
+  comenzar
+    av := PosAv
+    ca := PosCa
+    RecibirMensaje(equipo, rF)
+    RecibirMensaje(avC, rF)
+    repetir 12
+      BloquearEsquina(15,15)
+      Pos(15,15)
+      tomarPapel
+      Pos(av,ca)
+      LiberarEsquina(15,15)
+    BloquearEsquina(avC,4)
+    Pos(avC,4)
+    depositarPapel
+    mover
+    LiberarEsquina(avC,4)
+    repetir 10
+      depositarPapel
+      mover
+    depositarPapel
+    EnviarMensaje(equipo, rF)  
+  fin
+   
+  robot horizontal
+  variables
+    id : numero
+    av : numero
+    ca : numero
+    avC : numero
+    equipo : numero
+    
+  comenzar
+    av := PosAv
+    ca := PosCa
+    RecibirMensaje(equipo, rF)
+    RecibirMensaje(avC, rF)
+    repetir 4
+      BloquearEsquina(15,15)
+      Pos(15,15)
+      tomarFlor
+      Pos(av,ca)
+      LiberarEsquina(15,15)
+    BloquearEsquina(avC,4)
+    Pos(avC,4)
+    depositarFlor
+    derecha
+    mover
+    LiberarEsquina(avC,4)
+    repetir 2
+      depositarFlor
+      mover
+    depositarFlor
+    EnviarMensaje(equipo, rF)  
+  fin
+
+  robot fiscalizador
+  variables
+    equipo1 : numero
+    equipo2 : numero
+    equipo : numero
+    terminar : boolean
+  comenzar
+    equipo1 := 0 
+    equipo2 := 0
+    EnviarMensaje(1, r1V)
+    EnviarMensaje(5, r1V)
+    EnviarMensaje(1, r1H)
+    EnviarMensaje(5,r1H)
+    EnviarMensaje(2, r2V)
+    EnviarMensaje(11, r2V)
+    EnviarMensaje(2, r2H)
+    EnviarMensaje(11, r2H)
+    terminar := V
+    repetir 4
+      RecibirMensaje(equipo, *)
+      si (terminar = V)
+        si (equipo = 1)
+          equipo1 := equipo1 + 1
+          si (equipo1 = 2)
+            Informar(1)
+            terminar := F
+        sino
+          equipo2 := equipo2 + 1
+          si (equipo2 = 2)
+            Informar(2)
+            terminar := F
+  fin
+variables
+  r1V : vertical
+  r1H : horizontal
+  r2V : vertical
+  r2H : horizontal
+  rF : fiscalizador
+comenzar
+  AsignarArea(r1V, area1)
+  AsignarArea(r1V, area5)
+  AsignarArea(r1H, area2)
+  AsignarArea(r1H, area5)
+  AsignarArea(r2V, area3)
+  AsignarArea(r2V, area5)
+  AsignarArea(r2H, area4)
+  AsignarArea(r2H, area5)
+  AsignarArea(rF, areaF)
+  Iniciar(r1V, 50,50)
+  Iniciar(r1H, 51,51)
+  Iniciar(r2V, 52,52)
+  Iniciar(r2H, 53,53)
+  Iniciar(rF, 1,1)
+fin
+
+

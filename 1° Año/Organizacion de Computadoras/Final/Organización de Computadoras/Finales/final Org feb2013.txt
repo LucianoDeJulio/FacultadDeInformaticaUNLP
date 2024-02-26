@@ -1,0 +1,33 @@
+el 1ro era
+a partir de tu numero de alumno, suponer que estuviera representado en BCH
+o sea
+6 digitos tenes que usar
+entonces
+0001 0000 0101 .....
+con ese mismo numero tenias que decir que numero representaba y el sistema estaba en punto flotante
+1 para signo, 7 para exponente y 16 mantisa fraccionaria
+ah, otra cosa que me cagaron
+el exponente en exceso 64
+tenes 7 bits y el exceso es 64
+
+
+despues te preguntaban el error maximo que podias cometer en tu representacion
+
+el punto 2 era
+circuito logico
+tenes 4 entradas , M N O P y una salida F que es 1 cuando solo 2 entradas son 0
+entonces tenias que armar la tabla y el circuito
+y detallar "precisamente" cada cosa que hacias y porque lo hacias
+
+punto 3
+que es un circuito logico
+
+las intrucciones de transferencia de control del MSX88 y que modo de direccionamiento usan
+ 
+y el 4
+cuanta memoria de video necesitas para almacenar una imagen de 1024x1024 True Color
+Y cuantos bytes necesita el CPU mandar si queres mostrar 20 imagenes por segundo
+
+la ultima pregunta era
+con una memoria de video de 100 nanosegundos de acceso alcanzaria?
+

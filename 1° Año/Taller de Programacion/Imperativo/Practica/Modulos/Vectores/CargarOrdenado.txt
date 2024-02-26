@@ -1,0 +1,12 @@
+procedure cargarVector( var num:vector; var diml:integer );
+var
+  dato:integer;
+begin
+   dimL := 0;
+   read (dato);
+   while (dato <> 0)  and ( dimL < dimF ) do begin
+          dimL := dimL + 1;
+       num [dimL] := dato;
+       read (dato)
+   end;
+End;

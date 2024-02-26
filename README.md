@@ -22,6 +22,8 @@
 - Proyecto de Software.
 - Taller de Tecnologías de Producción de Software  (Opcion Ruby).
 
+Tambien en este repositorio voy a subir los historiales academicos de las carreras que actualmente estoy estudiando.
+
 
 Estoy emocionado por seguir aprendiendo y aplicando mis habilidades en proyectos desafiantes. Si tienes alguna pregunta o deseas conocer más detalles sobre mis experiencias académicas, no dudes en contactarme.
 

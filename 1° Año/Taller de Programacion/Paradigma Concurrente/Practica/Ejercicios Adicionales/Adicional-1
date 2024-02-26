@@ -1,0 +1,149 @@
+programa adicional1 
+procesos 
+  proceso JFyP(ES flor:numero;ES papel:numero;E qsoy:numero) 
+  variables
+    sigo1,sigo2:boolean
+  comenzar
+    sigo1:=V
+    sigo2:=V
+    mientras  ((sigo1) | (sigo2))
+      si HayFlorEnLaEsquina
+        tomarFlor
+        flor:=flor+1
+        EnviarMensaje(qsoy,rJ)
+        EnviarMensaje(V,rJ)
+      sino
+        sigo1:=F
+      si HayPapelEnLaEsquina
+        tomarPapel 
+        papel:=papel+1
+        EnviarMensaje(qsoy,rJ)
+        EnviarMensaje(V,rJ)
+      sino 
+        sigo2:=F
+  fin 
+  proceso DepositarFyP(E flores:numero;E papeles:numero)
+  comenzar 
+    repetir flores  
+      depositarFlor
+    repetir papeles 
+      depositarPapel   
+  fin 
+  proceso Maximo(ES maxrobot:numero;E n1:numero;E n2:numero;E n3:numero;E n4:numero)
+  variables
+    max:numero
+  comenzar
+    max:=-1
+    si  n1 > max
+      max:=n1
+      maxrobot:=1
+    si  n2 > max
+      max:=n2
+      maxrobot:=2
+    si  n3 > max
+      max:=n3
+      maxrobot:=3
+    si  n4 > max
+      max:=n4
+      maxrobot:=4
+  fin  
+areas 
+  areaComun:AreaPC(45,48,62,69) 
+  areaini1:AreaP(10,10,10,10) 
+  areaini2:AreaP(11,10,11,10) 
+  areaini3:AreaP(12,10,12,10) 
+  areaini4:AreaP(13,10,13,10)
+  areaJ:AreaP(1,1,1,1) 
+robots 
+  robot tipo1 
+  variables 
+    qsoy,flores,papeles,MasJunto,avori,caori,auxav,auxca:numero    
+  comenzar 
+    RecibirMensaje(qsoy,rJ) 
+    avori:=PosAv 
+    caori:=PosCa 
+    repetir 5
+      Random(auxav,45,62) 
+      Random(auxca,48,69) 
+      BloquearEsquina(auxav,auxca) 
+      Pos(auxav,auxca) 
+      JFyP(flores,papeles,qsoy)
+      Pos(avori,caori)
+      LiberarEsquina(auxav,auxca)
+    EnviarMensaje(qsoy,rJ)
+    EnviarMensaje(F,rJ)
+    RecibirMensaje(MasJunto,rJ)
+    si MasJunto = qsoy
+      DepositarFyP(flores,papeles)
+  fin 
+  robot Jefe
+  variables
+    totfyp1,totfyp2,totfyp3,totfyp4:numero
+    sigo:numero
+    aux:boolean
+    max,qes:numero
+  comenzar
+    EnviarMensaje(1,robot1)
+    EnviarMensaje(2,robot2)
+    EnviarMensaje(3,robot3)
+    EnviarMensaje(4,robot4)
+    sigo:=0
+    totfyp1:=0
+    totfyp2:=0
+    totfyp3:=0 
+    totfyp4:=0
+    mientras sigo <> 4
+      RecibirMensaje(qes,*)
+      si qes=1
+        RecibirMensaje(aux,robot1)
+        si aux
+          totfyp1:=totfyp1+1
+        sino
+          sigo:=sigo+1 
+      sino
+        si qes=2
+          RecibirMensaje(aux,robot2)
+          si aux
+            totfyp2:=totfyp2+1
+          sino
+            sigo:=sigo+1
+        sino
+          si qes=3
+            RecibirMensaje(aux,robot3)
+            si aux
+              totfyp3:=totfyp3+1
+            sino
+              sigo:=sigo+1
+          sino
+            si qes=4
+              RecibirMensaje(aux,robot4)
+              si aux
+                totfyp4:=totfyp4+1
+              sino
+                sigo:=sigo+1
+    Maximo(max,totfyp1,totfyp2,totfyp3,totfyp4)
+    EnviarMensaje(max,robot1)
+    EnviarMensaje(max,robot2) 
+    EnviarMensaje(max,robot3) 
+    EnviarMensaje(max,robot4)
+    Informar(max)   
+  fin  
+variables
+  robot1,robot2,robot3,robot4:tipo1
+  rJ:Jefe
+comenzar
+  AsignarArea(robot1,areaComun)
+  AsignarArea(robot2,areaComun)
+  AsignarArea(robot3,areaComun)
+  AsignarArea(robot4,areaComun)
+  AsignarArea(robot1,areaini1)
+  AsignarArea(robot2,areaini2)
+  AsignarArea(robot3,areaini3)
+  AsignarArea(robot4,areaini4)
+  AsignarArea(rJ,areaJ)
+  Iniciar(rJ,1,1)
+  Iniciar(robot1,10,10)
+  Iniciar(robot2,11,10)
+  Iniciar(robot3,12,10)
+  Iniciar(robot4,13,10)
+fin 

@@ -1,0 +1,97 @@
+programa Esquinas-Vacias
+procesos
+  proceso minimo(ES min : numero; ES minId : numero; E esquinaV : numero; E id : numero)
+  comenzar
+    si(esquinaV < min)
+      min := esquinaV
+      minId := id
+  fin
+areas
+  area1 : AreaPC(5,5,20,20)
+  casa1 : AreaP(10,1,10,1)
+  casa2 : AreaP(12,1,12,1)
+  casa3 : AreaP(14,1,14,1)
+  casaF : AreaP(21,21,21,21)
+robots
+  robot tipo1
+  variables
+    esquinaV : numero
+    florD : numero
+    id : numero
+    caR : numero
+    avR : numero
+    caO : numero
+    avO : numero
+    ok : boolean
+  comenzar
+    RecibirMensaje(id,rF)
+    avO := PosAv
+    caO := PosCa
+    repetir 4
+      Random(caR,5,20)
+      Random(avR,5,20)
+      BloquearEsquina(avR,caR)
+      Pos(avR,caR)
+      si(~HayFlorEnLaEsquina)& (~HayPapelEnLaEsquina)
+        esquinaV := esquinaV + 1
+        si(HayFlorEnLaBolsa)
+          depositarFlor
+          florD := florD + 1
+      Pos(avO,caO)
+      LiberarEsquina(avR,caR)
+    EnviarMensaje(id,rF)
+    EnviarMensaje(esquinaV, rF)
+    EnviarMensaje(florD, rF)
+  fin
+  
+  robot tipo2
+  variables
+    id : numero
+    florD : numero
+    esquinaV : numero 
+    totalF : numero 
+    min : numero
+    minId : numero
+  comenzar
+    totalF := 0
+    min := 999
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+    repetir 3
+      RecibirMensaje(id,*)
+      si(id = 1)
+        RecibirMensaje(esquinaV, r1)
+        RecibirMensaje(florD, r1)
+        totalF := totalF + florD
+      sino
+        si(id = 2)
+          RecibirMensaje(esquinaV,r2)
+          RecibirMensaje(florD,r2)
+          totalF := totalF + florD
+        sino
+          RecibirMensaje(esquinaV,r3)
+          RecibirMensaje(florD,r3)
+          totalF := totalF + florD
+    minimo(min,minId,esquinaV,id)    
+    Informar('Menos-junto', minId)
+    Informar('Total-Flores', totalF)
+  fin          
+variables
+  r1 : tipo1
+  r2 : tipo1
+  r3 : tipo1
+  rF : tipo2
+comenzar
+  AsignarArea(r1, area1)
+  AsignarArea(r1, casa1)
+  AsignarArea(r2, area1)
+  AsignarArea(r2, casa2)
+  AsignarArea(r3, area1)
+  AsignarArea(r3, casa3)
+  AsignarArea(rF, casaF)
+  Iniciar(r1, 10,1)
+  Iniciar(r2, 12,1)
+  Iniciar(r3, 14,1)
+  Iniciar(rF, 21,21)
+fin

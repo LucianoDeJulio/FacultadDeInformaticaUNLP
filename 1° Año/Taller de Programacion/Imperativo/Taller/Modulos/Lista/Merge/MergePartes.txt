@@ -1,0 +1,54 @@
+Procedure AgregarAtras (var L:lista; N:lista);
+var nue,act:lista;
+begin
+     act:=L;
+     nue:=N;
+     nue^.sig:=nil;
+     if(L<>nil)then
+     begin
+          act:=L;
+          while(act^.sig<>nil)do
+                                act:=act^.sig;
+          act^.sig:=nue;
+     end
+     else
+         L:=nue;
+end;
+
+procedure Borrar(var l:lista);
+begin
+    l:=l^.sig;
+end;
+
+procedure buscarMin(var v:vector;var ISBN:lista);
+var
+    min,i,pos:integer;
+begin
+    min:=9999;
+
+    for i:=1 to Dimf do begin
+        if (v[i]<>NIl)then
+             if(v[i]^.datos<min)then begin
+                    min:=v[i]^.datos;
+                    pos:=i;
+                    ISBN:=v[i];
+             end;
+
+    end;
+    if(min<>9999)then
+        Borrar(v[pos])
+    else
+        isbn:=nil;
+
+end;
+
+procedure Merge(var v:vector; var l:lista);
+var
+    ISBN:lista;
+begin
+    buscarmin(v,ISBN);
+    while(ISBN<>nil) do begin
+        agregaratras(l,Isbn);
+        buscarmin(v,Isbn);
+    end;
+end;

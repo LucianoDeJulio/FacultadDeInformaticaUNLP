@@ -1,0 +1,172 @@
+program Pizza;
+type
+  lista = ^nodo;
+  nodo = record
+         dato:integer;
+         sig:lista;
+         end;
+  pizzas = record
+           CodC:integer;
+           Total:real;
+           end;
+  arbol = ^nodoo;
+  nodoo = record
+          Dato:pizzas;
+          CodP:lista;
+          HI:arbol;
+          HD:arbol;
+          end;
+
+procedure leer (var a: pizzas; var codP:integer);
+begin
+
+     writeln('Ingrese el monto');
+     readln(a.total);
+     if(a.total<>0)then begin
+         writeln('ingrese el codigo de cliente.');
+         readln(a.CodC);
+         writeln('ingrese el codigo de pizza');
+         readln(CodP);
+     end;
+end;
+
+procedure Buscar(l:lista; var x:boolean; dato:integer);
+begin
+  if(l<>nil)and(x<>true)then begin
+    if(l^.dato=dato)then
+      x:=true;
+    Buscar(l^.sig,x,dato);
+  end;
+end;
+
+Procedure AgregarAdelante (var L:lista; per:integer);
+Var nue:Lista;
+Begin
+  New(nue);
+  nue^.dato:=per;
+  nue^.sig:=L;
+  L:=nue;
+End;
+
+procedure InsertarABB(var a:arbol; dato:pizzas; CodP:integer);
+var
+  aux:arbol;
+  ok:boolean;
+begin
+  if(a=nil)then begin
+    new(aux);
+    aux^.dato.CodC:=dato.CodC;
+    aux^.dato.Total:= dato.Total;
+    aux^.HI:=nil;
+    aux^.HD:=nil;
+    aux^.CodP:=nil;
+    ok:=false;
+    Buscar(aux^.CodP,ok,CodP);
+    if(ok=false)then
+      AgregarAdelante(aux^.CodP,Codp);
+    a:=aux;
+  end
+  else
+    if(a^.dato.CodC>dato.CodC)then
+      InsertarABB(a^.HI, dato, CodP)
+    else
+      if(a^.dato.CodC<dato.CodC)then
+        InsertarABB(a^.HD, dato, CodP)
+        else begin
+          a^.dato.total:=a^.dato.total + dato.total;
+          Buscar(a^.CodP,ok,CodP);
+          if(ok=false)then
+            AgregarAdelante(a^.CodP,Codp);
+         end;
+end;
+
+procedure CargarArbol(var a:arbol);
+var
+  p:pizzas;
+  codp:integer;
+begin
+    Leer(p,codp);
+    while(p.total<>0)do begin
+      insertarABB(a,p,CodP);
+      Leer(p,CodP);
+ end;
+end;
+
+
+procedure RecorridoAcotadoMontoTotal(a:arbol; inf,sup:integer; var contador:integer);
+begin
+  if(a<>nil)then begin
+    if(a^.dato.total>=inf)then begin
+      if( a^.dato.total<=sup)then
+        Contador:=Contador+1;
+    RecorridoAcotadoMontoTotal(a^.HI,inf,sup,contador);
+    RecorridoAcotadoMontoTotal(a^.HD,inf,sup,contador);
+   end;
+end;
+end;
+
+Procedure recorrido ( pri: lista );
+
+Begin
+ while (pri <> NIL) do begin
+   writeln('Codigo :',pri^.dato);
+   pri:= pri^.sig;
+ end;
+end;
+
+Procedure recorrido1 ( pri : lista; a:arbol);
+
+Begin
+ writeln('Monto: ',a^.dato.total:3:2,' CodigoCliente: ',a^.dato.CodC);
+ while (pri <> NIL) do begin
+   writeln('Codigo :',pri^.dato);
+   pri:= pri^.sig;
+ end;
+end;
+
+procedure RecorridoAcotadoCod(a:arbol);
+begin
+  if(a<>nil)then begin
+    if(a^.dato.CodC>=170)then
+      if( a^.dato.CodC<=300)then begin
+        recorrido(a^.CodP);
+        RecorridoAcotadoCod(a^.HI);
+        RecorridoAcotadoCod(a^.HD);
+      end
+      else
+        RecorridoAcotadoCod(a^.HI)
+    else
+      RecorridoAcotadoCod(a^.HD);
+  end;
+end;
+
+procedure EnOrden(a:arbol);
+begin
+ if(a<>nil) then begin
+    EnOrden(a^.HI);
+    recorrido1(a^.codp, a);
+    EnOrden(a^.HD);
+ end;
+end;
+
+var
+  a:arbol;
+  inf,sup:integer;
+  contador:integer;
+begin
+  a:=nil;
+  CargarArbol(a);
+  writeln;
+  EnOrden(a);
+  writeln('Ingrese un valor minimo y maximo para informar la cantidad de clientes que hayan gastado un monto total entre esos dos valores.');
+  readln(inf);
+  readln(sup);
+  contador:=0;
+  RecorridoAcotadoMontoTotal(a,inf,sup,contador);
+  writeln;
+  writeln('La cantidad de personas que gastaron un monto total entre los dos valores ingresados son: ',contador);
+  writeln;
+  writeln('Se informaran los codigos de pizzas de los clientes cuyo codigo este entre 170 y 300.');
+  RecorridoAcotadoCod(a);
+  readln;
+end.

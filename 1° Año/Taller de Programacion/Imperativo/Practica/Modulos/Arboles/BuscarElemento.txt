@@ -1,0 +1,38 @@
+procedure Buscar (a:arbol; var p:arbol;dato: integer);
+begin
+     if(a=nil) then
+                p:=nil
+     else
+         if(dato=a^.dato)then
+            p:=a
+         else
+             if(dato<a^.dato)then
+                  Buscar(a^.HI,p,dato)
+             else
+                  Buscar(a^.HD,p,dato);
+end;
+
+
+{PROGRAMA PRINCIPAL}
+var
+   a,p:arbol;
+   dato,i:integer;
+begin
+ a:=nil;
+ writeln('Ingrese dato');
+ readln(dato);
+ while(dato<>0)do begin
+   insertarabb(a,dato);
+   writeln('Ingrese dato');
+   readln(dato);
+ end;
+    imprimirpornivel(a);
+ writeln('ingrese el dato a buscar');
+ readln(dato);
+ Buscar(a,p,dato);
+ if (p<>nil) then
+     writeln('el dato fue encontrado')
+ else
+     writeln('el dato no fue encontrado');
+ readln;
+end.

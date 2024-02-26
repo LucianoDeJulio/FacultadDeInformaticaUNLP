@@ -1,0 +1,101 @@
+programa Carrera-reciclaje
+procesos
+  proceso maximo (E t:numero;ES max: numero;ES ganador:numero;E id:numero)
+  comenzar
+    si (t>max)
+      max:=t
+      ganador:=id
+  fin 
+areas
+  cuadrado : AreaPC(1,2,21,40)
+  casaF : AreaP(25,1,25,1)
+  casa1 : AreaP(1,1,7,1)
+  casa2 : AreaP(8,1,14,1)
+  casa3 : AreaP(15,1,21,1)
+robots
+  
+  robot tipo1
+  variables
+    avI : numero
+    pasos: numero
+    total : numero
+    avO : numero
+    caO : numero
+    id : numero
+  comenzar
+    avO := PosAv
+    caO := PosCa
+    RecibirMensaje(id, robotF)
+    RecibirMensaje(avI,robotF)
+    Pos(avI,caO)
+    total := 0
+    repetir 5
+      Random(pasos,1,10)
+      si(total < 40)
+        repetir pasos
+          mientras(HayPapelEnLaEsquina)
+            tomarPapel
+          si (PosCa + 1 <= 40)
+            mover
+            total := total + 1
+    Informar(id)
+    BloquearEsquina(1,30)
+    Pos(1,30)
+    mientras(HayPapelEnLaBolsa)
+      depositarPapel
+    Pos(avO,caO)
+    LiberarEsquina(1,30)
+    EnviarMensaje(id, robotF)
+    EnviarMensaje(total, robotF)
+  fin 
+  robot tipoF
+  variables
+    total : numero
+    avI : numero
+    id : numero
+    max:numero
+    ganador:numero
+  comenzar
+    max:=0
+    EnviarMensaje(1,robot1)
+    Random (avI,1,7)
+    EnviarMensaje(avI,robot1)
+    EnviarMensaje(2,robot2)
+    Random(avI,8,14)
+    EnviarMensaje(avI,robot2)
+    EnviarMensaje(3,robot3)
+    Random(avI, 15,21)
+    EnviarMensaje(avI,robot3)
+    repetir 3
+      RecibirMensaje(id, *)
+      si(id = 1)
+        RecibirMensaje(total, robot1)
+        maximo(total,max,ganador,id)
+      sino
+        si(id=2)
+          RecibirMensaje(total, robot2)
+          maximo(total,max,ganador,id)
+        sino
+          RecibirMensaje(total, robot3)
+          maximo(total,max,ganador,id)
+    Informar('Robot-Ganador',ganador)
+    Informar('Pasos', total)
+  fin
+variables
+  robot1 : tipo1
+  robot2 : tipo1
+  robot3 : tipo1
+  robotF : tipoF
+comenzar
+  AsignarArea(robot1, cuadrado)
+  AsignarArea(robot1,casa1)
+  AsignarArea(robot2, cuadrado)
+  AsignarArea(robot2,casa2)
+  AsignarArea(robot3, cuadrado)
+  AsignarArea(robot3,casa3)
+  AsignarArea(robotF, casaF)
+  Iniciar(robot1,1,1)
+  Iniciar(robot2,8,1)
+  Iniciar(robot3,15,1)
+  Iniciar(robotF,25,1)
+fin

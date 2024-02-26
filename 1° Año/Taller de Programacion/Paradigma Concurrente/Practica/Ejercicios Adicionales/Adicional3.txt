@@ -1,0 +1,103 @@
+programa ejercicio-3
+procesos
+  proceso juntarTodo(ES total:numero;ES ok:boolean)
+  comenzar
+    si(HayFlorEnLaEsquina)
+      tomarFlor
+      total:=total+1
+      si(~HayFlorEnLaEsquina)y(~HayPapelEnLaEsquina)
+        ok:=F
+    si(HayPapelEnLaEsquina)
+      tomarPapel
+      total:=total+1
+      si(~HayFlorEnLaEsquina)y(~HayPapelEnLaEsquina)
+        ok:=F
+  fin
+areas
+  areaRobot1:AreaP(2,2,2,2)
+  areaRobot2:AreaP(3,3,3,3)
+  areaRobot3:AreaP(4,4,4,4)
+  areaRobots:AreaPC(10,10,10,100)
+  areaJefe: AreaP(1,1,1,1)
+  fuente:AreaPC(5,5,5,5)
+robots
+  robot tipo1
+  variables
+    total:numero
+    av,ca:numero
+    iden:numero
+    terminar:boolean
+    ok:boolean
+  comenzar
+    total:=0
+    ok:=V
+    RecibirMensaje(iden,j)
+    av:=PosAv
+    ca:=PosCa
+    terminar:=V
+    mientras(terminar=V)
+      BloquearEsquina(5,5)
+      Pos(5,5)
+      juntarTodo(total,ok)
+      si(ok=F)
+        si(~HayFlorEnLaEsquina)y(~HayPapelEnLaEsquina)
+          terminar:=F
+          Pos(10,10)
+          mientras(HayFlorEnLaBolsa)y(HayPapelEnLaBolsa)
+            depositarFlor
+            mover
+            depositarPapel
+            mover
+      si(~HayFlorEnLaEsquina)y(~HayPapelEnLaEsquina)
+        terminar:=F
+      Pos(av,ca)
+      LiberarEsquina(5,5)
+    EnviarMensaje(iden,j)
+    EnviarMensaje(total,j)
+  fin
+  robot jefe
+  variables
+    iden:numero
+    total:numero
+    max:numero
+    maxIden:numero
+  comenzar
+    max:=0
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+    repetir 3
+      RecibirMensaje(iden,*)
+      si(iden=1)
+        RecibirMensaje(total,r1)
+      sino
+        si(iden=2)
+          RecibirMensaje(total,r2)
+        sino
+          RecibirMensaje(total,r3)
+      si(total>max)
+        max:=total
+        maxIden:=iden
+    Informar('Ganador',maxIden)
+  fin
+variables
+  r1:tipo1
+  r2:tipo1
+  r3:tipo1
+  j:jefe
+comenzar
+  AsignarArea(r1,areaRobot1)
+  AsignarArea(r2,areaRobot2)
+  AsignarArea(r3,areaRobot3)
+  AsignarArea(j,areaJefe)
+  AsignarArea(r1,fuente)
+  AsignarArea(r2,fuente)
+  AsignarArea(r3,fuente)
+  AsignarArea(r1,areaRobots)
+  AsignarArea(r2,areaRobots)
+  AsignarArea(r3,areaRobots)
+  Iniciar(r1,2,2)
+  Iniciar(r2,3,3)
+  Iniciar(r3,4,4)
+  Iniciar(j,1,1)
+fin

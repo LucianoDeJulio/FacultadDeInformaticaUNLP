@@ -1,0 +1,14 @@
+no estan en el orden!
+
+1. tomar tu numero de legajo como numero en hexadecimal, ejemplo 11293/9, seria 112939H, y representarlo en punto flotante de la forma siguiente: 1 bit signo mantisa, 7 bits de exponente en exceso 64, y 16 en mantisa fraccionaria. a: decir su forma decimal (algo asi) b: sacar el rango max y el error absoluto max.
+
+2.que es el ciclo de instruccion, definir los pasos de la instruccion AND AL, 55H. y decir cual es su resultado despues de la operacion si AL=5AH.
+
+
+3.que operandos aritmeticos se pueden usar en una maquina. y los datos del operando aritmetico en que influiria en el hardwarte (algo asi, se ha preguntado en parciales viejos)
+
+//el mio desp del punto decia porque los distinto datos necesitan hadware especial. 
+
+4 caracterizar circuitos combicionales. si tenemos 4 entradas (MNOP) y solo la salida vale 1 cuando solo dos de ellas son 0, definir que forma se usa para llegar a una funcion y graficar dicha cosa.
+
+5. que prestaciones tiene un raid y ventajas ante los dicos, y que tipos de acceso posee la memoria secundaria.

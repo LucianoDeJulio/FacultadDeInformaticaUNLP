@@ -1,0 +1,14 @@
+type
+    Cadena=string[30];
+    empleado=record
+         codigo:integer;
+         apellido:Cadena;
+         agno:1980..2018;
+         categoria:1..4;
+        end;
+
+    lista=^nodo;
+    nodo= record
+         datos:empleado;
+         sig:lista;
+         end;

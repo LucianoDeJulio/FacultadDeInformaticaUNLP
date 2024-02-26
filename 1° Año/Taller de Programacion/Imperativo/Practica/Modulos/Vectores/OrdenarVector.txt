@@ -1,0 +1,15 @@
+procedure ordenar(var v:vector; diml:integer);
+var
+    j,i,aux:integer;
+
+begin
+    for i:=2 to diml do begin
+        aux:=v[i];
+        j:=i-1;
+        while(j>0) and (v[j]>aux) do begin
+            v[j+1]:=v[j];
+            j:=j-1;
+        end;
+        v[j+1]:=aux;
+    end;
+end;

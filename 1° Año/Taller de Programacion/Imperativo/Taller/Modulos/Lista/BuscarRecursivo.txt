@@ -1,0 +1,8 @@
+procedure Buscar(l:lista; var x:boolean; dato:integer);
+begin
+  if(l<>nil)and(x<>true)then begin
+    if(l^.datos=dato)then
+      x:=true;
+    Buscar(l^.sig,x,dato);
+  end;
+end;

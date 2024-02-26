@@ -1,0 +1,72 @@
+programa Ejercicio3-2
+
+areas
+  area1 : AreaP(10,5,30,30)
+  area2 : AreaP(35,35,55,55)
+  areaDeposito : AreaPC(82,82,82,82)
+  areaJefe : AreaP(1,1,1,1)
+
+robots 
+  robot tipo1
+  variables
+    flores : numero
+    av,ca : numero
+    alto, ancho:numero
+  comenzar
+    flores := 0
+    RecibirMensaje(av,robotJ)
+    RecibirMensaje(ca,robotJ)
+    RecibirMensaje(alto,robotJ)
+    RecibirMensaje(ancho,robotJ)
+    Pos(av,ca)
+    repetir 2
+      repetir alto
+        mientras(HayFlorEnLaEsquina)
+          tomarFlor
+          flores := flores + 1
+        mover
+      derecha
+      repetir ancho
+        mientras (HayFlorEnLaEsquina)
+          tomarFlor
+          flores := flores + 1
+        mover
+      derecha
+    Informar(flores)
+    mientras(HayFlorEnLaBolsa)
+      BloquearEsquina(82,82)
+      Pos(82,82)
+      depositarFlor
+      Pos(av,ca)
+      LiberarEsquina(82,82)
+      
+  fin
+  
+  robot tipoJefe
+  comenzar
+    EnviarMensaje(10,robot1)
+    EnviarMensaje(5,robot1)
+    EnviarMensaje(25,robot1)
+    EnviarMensaje(20,robot1)
+    EnviarMensaje(35,robot2)
+    EnviarMensaje(35,robot2)
+    EnviarMensaje(20,robot2)
+    EnviarMensaje(20,robot2)
+  fin
+
+variables 
+  robot1: tipo1
+  robot2: tipo1
+  robotJ: tipoJefe
+  
+comenzar 
+  AsignarArea(robot1,area1)
+  AsignarArea(robot2,area2)
+  AsignarArea(robot1,areaDeposito)
+  AsignarArea(robot2,areaDeposito)
+  AsignarArea(robotJ,areaJefe)
+  
+  Iniciar(robot1, 10, 10)
+  Iniciar(robot2, 35, 35) 
+  Iniciar(robotJ, 1, 1)
+fin

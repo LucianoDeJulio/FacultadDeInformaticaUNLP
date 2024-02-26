@@ -1,0 +1,49 @@
+procedure Buscar(l:lista; var x:boolean; dato:integer);
+begin
+  if(l<>nil)and(x<>true)then begin
+    if(l^.dato=dato)then
+      x:=true;
+    Buscar(l^.sig,x,dato);
+  end;
+end;
+
+Procedure AgregarAdelante (var L:lista; per:integer);
+Var nue:Lista;
+Begin
+  New(nue);
+  nue^.dato:=per;
+  nue^.sig:=L;
+  L:=nue;
+End;
+
+procedure InsertarABB(var a:arbol; dato:pizzas; CodP:integer);
+var
+  aux:arbol;
+  ok:boolean;
+begin
+  if(a=nil)then begin
+    new(aux);
+    aux^.dato.CodC:=dato.CodC;
+    aux^.dato.Total:= dato.Total;
+    aux^.HI:=nil;
+    aux^.HD:=nil;
+    aux^.CodP:=nil;
+    ok:=false;
+    Buscar(aux^.CodP,ok,CodP);
+    if(ok=false)then
+      AgregarAdelante(aux^.CodP,Codp);
+    a:=aux;
+  end
+  else
+    if(a^.dato.CodC>dato.CodC)then
+      InsertarABB(a^.HI, dato, CodP)
+    else
+      if(a^.dato.CodC<dato.CodC)then
+        InsertarABB(a^.HD, dato, CodP)
+        else begin
+          a^.dato.total:=a^.dato.total + dato.total;
+          Buscar(a^.CodP,ok,CodP);
+          if(ok=false)then
+            AgregarAdelante(a^.CodP,Codp);
+         end;
+end;
